@@ -1,5 +1,6 @@
 using API.Data;
 using API.Entities;
+using API.Helpers;
 using API.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -17,9 +18,9 @@ public class StarshipsController : ControllerBase
         _starshipRepository = starshipRepository;
     }
     [HttpGet("list")]
-    public async Task<ActionResult<IEnumerable<Starship>>> GetAllShips()
+    public async Task<ActionResult<PagedResponse<Starship>>> GetStarShips([FromQuery] PageParams pageParams)
     {
-        return Ok(await _starshipRepository.GetStarshipsAsync());
+        return Ok(await _starshipRepository.GetStarshipsAsync(pageParams));
     }
 
     [HttpGet("{id}")]

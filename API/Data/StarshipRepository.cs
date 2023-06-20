@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using API.Entities;
+using API.Helpers;
 using API.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
@@ -35,9 +36,10 @@ namespace API.Data
             return await _context.Starships.SingleOrDefaultAsync(x => x.Name == name);
         }
 
-        public async Task<IEnumerable<Starship>> GetStarshipsAsync()
+        public async Task<PagedResponse<Starship>> GetStarshipsAsync(PageParams pageParams)
         {
-            return await _context.Starships.ToListAsync();
+            var query = _context.Starships.AsNoTracking();
+            return await PagedResponse<Starship>.CreateAsync(query, pageParams.PageNumber, pageParams.PageSize, "https://swapi.dev/api/starships/list");
         }
 
         public async Task<bool> SaveAllAsync()
