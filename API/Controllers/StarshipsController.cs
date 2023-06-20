@@ -1,5 +1,6 @@
 using API.Data;
 using API.Entities;
+using API.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -9,22 +10,27 @@ namespace API.Controllers;
 [Route("api/[controller]")]
 public class StarshipsController : ControllerBase
 {
-    private readonly DataContext _context;
+    private readonly IStarshipRepository _starshipRepository;
 
-    public StarshipsController(DataContext context)
+    public StarshipsController(IStarshipRepository starshipRepository)
     {
-        _context = context;
+        _starshipRepository = starshipRepository;
     }
-    [HttpGet]
-    public async Task<IEnumerable<Starship>> GetAllShips()
+    [HttpGet("list")]
+    public async Task<ActionResult<IEnumerable<Starship>>> GetAllShips()
     {
-        var starships = await _context.Starships.ToListAsync();
-        return starships;
+        return Ok(await _starshipRepository.GetStarshipsAsync());
     }
 
-    [HttpGet("id")]
-    public async Task<Starship> GetStarship(int id)
+    [HttpGet("{id}")]
+    public async Task<ActionResult<Starship>> GetStarship(int id)
     {
-        return await _context.Starships.FindAsync(id);
+        return await _starshipRepository.GetStarshipByIdAsync(id);
+    }
+
+    [HttpGet("random")]
+    public async Task<ActionResult<Starship>> GetRandomShip()
+    {
+        return Ok(await _starshipRepository.GetRandomStarship());
     }
 }
