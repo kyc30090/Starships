@@ -43,7 +43,10 @@ public class StarshipsController : ControllerBase
         List<int> starshipIds = await _context.Starships.Select(x => x.Id).ToListAsync();
         int random = new Random().Next(starshipIds.Count);
         int starshipId = starshipIds.ElementAt(random);
-        return Ok(GetStarshipAsync(starshipId));
+        
+        var starship = await _context.Starships.FindAsync(starshipId);
+        if (starship == null) return NotFound();
+        return starship;
     }
 
     [HttpPost]
