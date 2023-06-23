@@ -50,7 +50,7 @@ public class StarshipsController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult<Starship>> CreateStarship(StarshipCreateDto starshipCreateDto)
+    public async Task<ActionResult<Starship>> CreateStarship([FromForm] StarshipCreateDto starshipCreateDto)
     {
         var starship = _mapper.Map<Starship>(starshipCreateDto);
         _context.Starships.Add(starship);
@@ -62,7 +62,7 @@ public class StarshipsController : ControllerBase
     }
 
     [HttpPut]
-    public async Task<ActionResult> UpdateStarship(StarshipUpdateDto starshipDto)
+    public async Task<ActionResult<Starship>> UpdateStarship([FromForm] StarshipUpdateDto starshipDto)
     {
         Starship starship = await _context.Starships.FindAsync(starshipDto.Id);
 
@@ -70,7 +70,7 @@ public class StarshipsController : ControllerBase
         _mapper.Map(starshipDto, starship);
 
         var result = await _context.SaveChangesAsync() > 0;
-        if (result) return NoContent();
+        if (result) return Ok(starship);
 
         return BadRequest("Failed to update starship");
     }
