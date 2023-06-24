@@ -31,7 +31,7 @@ public class Starship
     // public ICollection<string> Pilots { get; set; }
     // public ICollection<string> Films { get; set; }
     public DateTime Created { get; set; }
-    public DateTime Edited { get; set; }
+    public DateTime? Edited { get; set; }
     public string Url { get { return $"https://swapi.dev/api/starships/{Id}/"; } }
     public string Image { get; set; }
 }

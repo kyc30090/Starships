@@ -14,7 +14,7 @@ export default function DetailTemplate({loading, starship}: Props) {
     return (
         <Grid container spacing={6}>
             <Grid item xs={6}>
-                <img src={starship.imageUrl} alt={starship.name} style={{width: '100%'}} />
+                <img src={starship.image} alt={starship.name} style={{width: '100%'}} />
             </Grid>
             <Grid item xs={6}>
                 <Typography variant='h2'>{starship.name}</Typography>

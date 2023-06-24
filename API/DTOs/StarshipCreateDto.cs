@@ -27,7 +27,7 @@ namespace API.DTOs
         public string StarshipClass { get; set; }
         // public ICollection<string> Pilots { get; set; }
         // public ICollection<string> Films { get; set; }
-        public DateTime Created { get; set; } = DateTime.UtcNow;
-        public DateTime Edited { get; set; } = DateTime.UtcNow;
+        public IFormFile File { get; set; }
+
     }
 }

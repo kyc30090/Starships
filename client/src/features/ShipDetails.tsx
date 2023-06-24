@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Starship } from "../app/models/starship";
-import axios from "axios";
 import DetailTemplate from "./DetailTemplate";
 import agent from "../app/api/agent";
 

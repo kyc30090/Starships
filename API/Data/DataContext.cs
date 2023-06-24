@@ -10,6 +10,7 @@ public class DataContext : DbContext
     public DataContext(DbContextOptions DbContextOptions) : base(DbContextOptions) { }
 
     public DbSet<Starship> Starships { get; set; }
+    public DbSet<Film> Films { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -35,5 +36,9 @@ public class DataContext : DbContext
 
         Starship[] starships = SeedStarships.Load();
         modelBuilder.Entity<Starship>().Ignore(s => s.Url).HasData(starships);
+
+        Film[] films = SeedFilms.Load();
+        modelBuilder.Entity<Film>().Ignore(s => s.Url).HasData(films);
+
     }
 }

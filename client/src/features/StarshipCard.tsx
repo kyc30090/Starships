@@ -24,7 +24,7 @@ export default function StarshipCard({ starship, handleSelectShip, handleDeleteS
             />
             <CardMedia
                 sx={{ height: 140, backgroundSize: 'contain', bgcolor: 'primary.light' }}
-                image={"https://starwars-visualguide.com/assets/img/starships/9.jpg"}
+                image={starship.image}
                 title={starship.name}
             />
             <CardContent>

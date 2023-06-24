@@ -1,10 +1,17 @@
+using API;
 using API.Data;
 using API.Helpers;
+using Azure.Storage.Blobs;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+
+builder.Services.AddSingleton(u => new BlobServiceClient(
+    builder.Configuration.GetConnectionString("StorageAccount")
+));
+builder.Services.AddSingleton<IImageService, ImageService>();
 
 builder.Services.AddControllers();
 builder.Services.AddDbContext<DataContext>(opt =>

@@ -3,6 +3,7 @@ import { LoadingButton } from '@mui/lab';
 import { FieldValues, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import agent from "../app/api/agent";
+import AppDropzone from "../app/components/AppDropzone";
 import { Starship } from "../app/models/starship";
 import { useEffect } from "react";
 
@@ -12,9 +13,11 @@ interface Props {
 }
 
 export default function StarshipForm({ starship, cancelEdit }: Props) {
-    const { register, handleSubmit, setError, reset, formState: { isSubmitting, errors, isValid } } = useForm({
-        mode: 'onTouched'
-    });
+    const { register, handleSubmit, setError, reset, control, watch,
+        formState: { isSubmitting, errors, isValid } } = useForm({
+            mode: 'onTouched'
+        });
+    const watchFile = watch('file', null);
 
     useEffect(() => {
         if (starship) {
@@ -50,7 +53,7 @@ export default function StarshipForm({ starship, cancelEdit }: Props) {
             } else {
                 response = await agent.Starships.create(data);
             }
-            
+
             // dispatch(setStarship(response));
             cancelEdit();
         } catch (error) {
@@ -183,6 +186,17 @@ export default function StarshipForm({ starship, cancelEdit }: Props) {
                                 max: 500
                             })}
                         />
+                    </Grid>
+                    <Grid item xs={12}>
+                        <Box display='flex' justifyContent='space-between' alignItems='center'>
+                            <AppDropzone control={control} name='file' />
+                            {watchFile ? (
+                                <img src={watchFile.preview} alt="preview" style={{ maxHeight: 200 }} />
+                            ) : (
+                                <img src={starship?.image} alt={starship?.name} style={{ maxHeight: 200 }} />
+                            )}
+                        </Box>
+
                     </Grid>
 
                 </Grid>
