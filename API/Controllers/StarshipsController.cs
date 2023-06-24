@@ -24,10 +24,13 @@ public class StarshipsController : ControllerBase
     }
 
     [HttpGet("list")]
-    public async Task<ActionResult<PagedResponse<Starship>>> GetStarShips([FromQuery] PageParams pageParams)
+    public async Task<ActionResult<PagedResponse<Starship>>> GetStarShips([FromQuery] ShipsParams shipsParams)
     {
-        var query = _context.Starships.AsNoTracking();
-        return Ok(await PagedResponse<Starship>.CreateAsync(query, pageParams.PageNumber, pageParams.PageSize, "https://swapi.dev/api/starships/list"));
+        var query = _context.Starships.AsNoTracking()
+                        .SortBy(shipsParams.Orderby)
+                        .Search(shipsParams.SearchTerm)
+                        .Filter(shipsParams.ShipClasses);
+        return Ok(await PagedResponse<Starship>.CreateAsync(query, shipsParams.PageNumber, shipsParams.PageSize, "https://swapi.dev/api/starships/list"));
     }
 
     [HttpGet("{id}", Name = "GetStarship")]
@@ -77,7 +80,7 @@ public class StarshipsController : ControllerBase
         Starship starship = await _context.Starships.FindAsync(starshipDto.Id);
 
         if (starship == null) return NotFound();
-        
+
         _mapper.Map(starshipDto, starship);
         starship.Edited = DateTime.UtcNow;
 
@@ -90,9 +93,9 @@ public class StarshipsController : ControllerBase
             if (!string.IsNullOrEmpty(existingImage))
             {
                 await _imageService.DeleteImage(existingImage.Split('/').Last(), StarshipsConstants.Storage_Container);
-                
+
             }
-            
+
             starship.Image = image;
         }
 

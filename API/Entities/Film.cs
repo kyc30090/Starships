@@ -14,6 +14,7 @@ namespace API.Entities
         [Required]
         public string Title { get; set; }
         [Required]
+        [JsonPropertyName("episode_id")]
         public int EpisodeId { get; set; }
         [JsonPropertyName("opening_crawl")]
         public string OpeningCrawl { get; set;}

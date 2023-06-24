@@ -1,5 +1,4 @@
 import axios, { AxiosResponse } from "axios";
-import { Starship } from "../models/starship";
 
 axios.defaults.baseURL = "http://localhost:5293/api/";
 
@@ -36,8 +35,13 @@ const Starships = {
     delete: (id: number) => requests.delete(`starships/${id}`)
 }
 
+const Films = {
+    list: () => requests.get('films')
+}
+
 const agent = {
-    Starships
+    Starships,
+    Films
 }
 
 export default agent;
