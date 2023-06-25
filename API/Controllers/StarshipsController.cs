@@ -119,4 +119,17 @@ public class StarshipsController : ControllerBase
 
         return BadRequest("Failed to delete starship");
     }
+
+    [HttpGet("filters")]
+    public async Task<IActionResult> GetFilters()
+    {
+        var shipClasses = await _context.Starships
+                                    .Where(s => !string.IsNullOrWhiteSpace(s.StarshipClass))
+                                    .Select(s => s.StarshipClass.ToLower())
+                                    .Distinct()
+                                    .OrderBy(n => n)
+                                    .ToListAsync();
+                                    
+        return Ok(new { shipClasses });
+    }
 }

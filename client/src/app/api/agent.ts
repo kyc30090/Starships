@@ -3,6 +3,8 @@ import axios, { AxiosResponse } from "axios";
 axios.defaults.baseURL = "http://localhost:5293/api/";
 
 const responseBody = (response: AxiosResponse) => response.data;
+// const responseBody = (response: AxiosResponse) => { console.log(response.data); return response.data;}
+
 
 function createFormData(item: any) {
     let formData = new FormData();

@@ -12,7 +12,7 @@ export default function StarshipList({ starships, handleSelectShip, handleDelete
     return (
         <Grid container spacing={4}>
             {starships.map(starship => (
-                <Grid item xs={3} key={starship.id}>
+                <Grid item xs={4} key={starship.id}>
                     <StarshipCard starship={starship}
                         handleSelectShip={handleSelectShip}
                         handleDeleteShip={handleDeleteShip}
