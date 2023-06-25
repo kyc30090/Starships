@@ -1,10 +1,23 @@
-import axios, { AxiosResponse } from "axios";
+import axios, { AxiosError, AxiosResponse } from "axios";
+import { PaginatedResponse } from "../models/pagination";
+
+const sleep = () => new Promise(resolve => setTimeout(resolve, 500))
 
 axios.defaults.baseURL = "http://localhost:5293/api/";
 
 const responseBody = (response: AxiosResponse) => response.data;
-// const responseBody = (response: AxiosResponse) => { console.log(response.data); return response.data;}
 
+axios.interceptors.response.use(async response => {
+    if (process.env.NODE_ENV === 'development') await sleep();
+    const pagination = response.headers['pagination'];
+    if (pagination) {
+        response.data = new PaginatedResponse(response.data?.results, JSON.parse(pagination));
+        return response;
+    }
+    return response;
+}, (error: AxiosError) => {
+    console.log(error.response);
+})
 
 function createFormData(item: any) {
     let formData = new FormData();
@@ -15,7 +28,7 @@ function createFormData(item: any) {
 }
 
 const requests = {
-    get: (url: string) => axios.get(url).then(responseBody),
+    get: (url: string, params?: URLSearchParams) => axios.get(url, {params}).then(responseBody),
     post: (url: string, body: {}) => axios.post(url, body).then(responseBody),
     put: (url: string, body: {}) => axios.put(url, body).then(responseBody),
     delete: (url: string) => axios.delete(url).then(responseBody),
@@ -28,13 +41,14 @@ const requests = {
 }
 
 const Starships = {
-    list: () => requests.get('starships/list'),
+    list: (params: URLSearchParams) => requests.get('starships/list', params),
     details: (id: number) => requests.get(`starships/${id}`),
     random: () => requests.get('starships/random'),
     create: (values: any) => requests.postForm('starships', createFormData(values)),
     //create: (values: any) => requests.post('starships', values),
     update: (values: any) => requests.putForm('starships', createFormData(values)),
-    delete: (id: number) => requests.delete(`starships/${id}`)
+    delete: (id: number) => requests.delete(`starships/${id}`),
+    fetchFilters: () => requests.get('starships/filters')
 }
 
 const Films = {

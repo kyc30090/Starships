@@ -1,3 +1,4 @@
+using System.Text.Json;
 using API.Data;
 using API.DTOs;
 using API.Entities;
@@ -30,7 +31,12 @@ public class StarshipsController : ControllerBase
                         .SortBy(shipsParams.Orderby)
                         .Search(shipsParams.SearchTerm)
                         .Filter(shipsParams.ShipClasses);
-        return Ok(await PagedResponse<Starship>.CreateAsync(query, shipsParams.PageNumber, shipsParams.PageSize, "https://swapi.dev/api/starships/list"));
+        var starships = await PagedResponse<Starship>.CreateAsync(query, shipsParams.PageNumber, shipsParams.PageSize, "https://swapi.dev/api/starships/list");
+
+        var results = starships.Results;
+        MetaData metaData = new MetaData(results.CurrentPage, results.PageSize, results.TotalPages, results.TotalCount);
+        Response.AddPaginationHeader(metaData);
+        return Ok(starships);
     }
 
     [HttpGet("{id}", Name = "GetStarship")]
@@ -129,7 +135,7 @@ public class StarshipsController : ControllerBase
                                     .Distinct()
                                     .OrderBy(n => n)
                                     .ToListAsync();
-                                    
+
         return Ok(new { shipClasses });
     }
 }
