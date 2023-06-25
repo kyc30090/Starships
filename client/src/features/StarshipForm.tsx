@@ -6,6 +6,8 @@ import agent from "../app/api/agent";
 import AppDropzone from "../app/components/AppDropzone";
 import { Starship } from "../app/models/starship";
 import { useEffect } from "react";
+import { useAppDispatch } from "../app/store/configureStore";
+import { setStarship } from "./catalogSlice";
 
 interface Props {
     starship?: Starship;
@@ -14,17 +16,21 @@ interface Props {
 
 export default function StarshipForm({ starship, cancelEdit }: Props) {
     const { register, handleSubmit, setError, reset, control, watch,
-        formState: { isSubmitting, errors, isValid } } = useForm({
+        formState: { isSubmitting, errors, isValid, isDirty } } = useForm({
             mode: 'onTouched'
         });
     const watchFile = watch('file', null);
+    const dispatch = useAppDispatch();
 
     useEffect(() => {
-        if (starship) {
+        if (starship && !watchFile && !isDirty) {
             reset(starship);
         }
+        return () => {
+            if (watchFile) URL.revokeObjectURL(watchFile.preview);
+        }
 
-    }, [starship, reset]);
+    }, [starship, reset, watchFile, isDirty]);
 
     const navigate = useNavigate();
 
@@ -47,14 +53,13 @@ export default function StarshipForm({ starship, cancelEdit }: Props) {
     async function handleSubmitData(data: FieldValues) {
         try {
             let response: Starship;
-            console.log(data)
             if (starship) {
                 response = await agent.Starships.update(data);
             } else {
                 response = await agent.Starships.create(data);
             }
 
-            // dispatch(setStarship(response));
+            dispatch(setStarship(response));
             cancelEdit();
         } catch (error) {
             console.log(error);

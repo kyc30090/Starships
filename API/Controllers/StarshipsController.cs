@@ -118,7 +118,9 @@ public class StarshipsController : ControllerBase
 
         if (starship == null) return NotFound();
 
-        await _imageService.DeleteImage(starship.Image.Split('/').Last(), StarshipsConstants.Storage_Container);
+        if (!string.IsNullOrWhiteSpace(starship.Image))
+            await _imageService.DeleteImage(starship.Image.Split('/').Last(), StarshipsConstants.Storage_Container);
+            
         _context.Starships.Remove(starship);
         var result = await _context.SaveChangesAsync() > 0;
         if (result) return Ok();

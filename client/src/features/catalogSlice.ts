@@ -33,19 +33,19 @@ export const fetchShipsAsync = createAsyncThunk<Starship[], void, {state: RootSt
             const response = await agent.Starships.list(params);
             thunkAPI.dispatch(setMetaData(response.metaData));
             return response.items;
-        } catch (error) {
-            console.log(error);
+        } catch (error: any) {
+            return thunkAPI.rejectWithValue({ error: error.data });
         }
     }
 )
 
 export const fetchShipAsync = createAsyncThunk<Starship, number>(
     'catalog/fetchShipAsync',
-    async (shipId) => {
+    async (shipId, thunkAPI) => {
         try {
             return await agent.Starships.details(shipId);
-        } catch (error) {
-            console.log(error);
+        } catch (error: any) {
+            return thunkAPI.rejectWithValue({ error: error.data });
         }
     }
 )
@@ -55,8 +55,8 @@ export const fetchFilters = createAsyncThunk(
     async (_, thunkAPI) => {
         try {
             return agent.Starships.fetchFilters();
-        } catch (error) {
-            console.log(error);
+        } catch (error: any) {
+            return thunkAPI.rejectWithValue({ error: error.data });
         }
     }
 )
@@ -94,6 +94,14 @@ export const catalogSlice = createSlice({
         },
         resetShipParams: (state) => {
             state.shipParams = initParams();
+        },
+        setStarship: (state, action) => {
+            shipsAdapter.upsertOne(state, action.payload);
+            state.shipsLoaded = false;
+        },
+        removeStarship: (state, action) => {
+            shipsAdapter.removeOne(state, action.payload);
+            state.shipsLoaded = false;
         }
     },
     extraReducers: (builder => {
@@ -136,4 +144,4 @@ export const catalogSlice = createSlice({
 
 export const starshipSelectors = shipsAdapter.getSelectors((state: RootState) => state.catalog);
 
-export const { setShipParams, resetShipParams, setMetaData, setPageNumber } = catalogSlice.actions;
+export const { setShipParams, resetShipParams, setMetaData, setPageNumber, setStarship, removeStarship } = catalogSlice.actions;

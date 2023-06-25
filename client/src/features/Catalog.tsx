@@ -1,16 +1,14 @@
-import { Box, Typography, Button, Grid, Paper, Pagination } from "@mui/material";
+import { Box, Typography, Button, Grid, Paper } from "@mui/material";
 import agent from "../app/api/agent";
 import { Starship } from "../app/models/starship";
 import StarshipForm from "./StarshipForm";
 import StarshipList from "./StarshipList";
 import { useState, useEffect } from "react";
-import types from "@emotion/styled";
-import { ShipParams } from "../app/models/shipParams";
 import RadioButtonGroup from "../app/components/RadioButtonGroup";
 import CheckboxButtons from "../app/components/CheckboxButtons";
 import AppPagination from "../app/components/AppPagination";
 import { useAppDispatch, useAppSelector } from "../app/store/configureStore";
-import { fetchFilters, fetchShipsAsync, starshipSelectors, setShipParams, setPageNumber } from "./catalogSlice";
+import { fetchFilters, fetchShipsAsync, starshipSelectors, setShipParams, setPageNumber, removeStarship } from "./catalogSlice";
 import ShipSearch from "./ShipSearch";
 import LoadingComponent from "../app/layout/LoadingComponent";
 
@@ -30,16 +28,6 @@ export default function Catalog() {
     const [editMode, setEditMode] = useState(false);
     const [selectedShip, setSelectedShip] = useState<Starship | undefined>(undefined);
     const [deleteId, setDeleteId] = useState(0);
-
-    // useEffect(() => {
-    //     agent.Starships.list()
-    //         .then(response => setStarships(response?.results))
-    //         .catch(error => console.log(error))
-    //         .finally(() => setLoading(false))
-    // }, []);
-
-    // if (loading) return (<h1>Loading...</h1>);
-
 
     useEffect(() => {
         if (!shipsLoaded) dispatch(fetchShipsAsync());
@@ -66,7 +54,7 @@ export default function Catalog() {
         setLoading(true);
         setDeleteId(id);
         agent.Starships.delete(id)
-            .then()
+            .then(() => dispatch(removeStarship(id)))
             .catch(error => console.log(error))
             .finally(() => setLoading(false));
     }
