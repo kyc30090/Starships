@@ -4,6 +4,7 @@ using API.DTOs;
 using API.Entities;
 using API.Helpers;
 using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -25,36 +26,38 @@ public class StarshipsController : ControllerBase
     }
 
     [HttpGet("list")]
-    public async Task<ActionResult<PagedResponse<Starship>>> GetStarShips([FromQuery] ShipsParams shipsParams)
+    public async Task<ActionResult<PagedResponse<StarshipDto>>> GetStarShips([FromQuery] ShipsParams shipsParams)
     {
         var query = _context.Starships.AsNoTracking()
+                        .Include(s => s.Films)
                         .SortBy(shipsParams.Orderby)
                         .Search(shipsParams.SearchTerm)
                         .Filter(shipsParams.ShipClasses);
-        var starships = await PagedResponse<Starship>.CreateAsync(query, shipsParams.PageNumber, shipsParams.PageSize, "https://swapi.dev/api/starships/list");
+        var starships = await CreateDtosAsync(query, shipsParams.PageNumber, shipsParams.PageSize, "https://swapi.dev/api/starships/list");
 
         var results = starships.Results;
         MetaData metaData = new MetaData(results.CurrentPage, results.PageSize, results.TotalPages, results.TotalCount);
         Response.AddPaginationHeader(metaData);
+        
         return Ok(starships);
     }
 
     [HttpGet("{id}", Name = "GetStarship")]
-    public async Task<ActionResult<Starship>> GetStarshipAsync(int id)
+    public async Task<ActionResult<StarshipDto>> GetStarshipAsync(int id)
     {
-        var starship = await _context.Starships.FindAsync(id);
+        var starship = await GetStarshipDtoByIdAsync(id);
         if (starship == null) return NotFound();
         return starship;
     }
 
     [HttpGet("random")]
-    public async Task<ActionResult<Starship>> GetRandomShip()
+    public async Task<ActionResult<StarshipDto>> GetRandomShip()
     {
         List<int> starshipIds = await _context.Starships.Select(x => x.Id).ToListAsync();
         int random = new Random().Next(starshipIds.Count);
         int starshipId = starshipIds.ElementAt(random);
 
-        var starship = await _context.Starships.FindAsync(starshipId);
+        var starship = await GetStarshipDtoByIdAsync(starshipId);
         if (starship == null) return NotFound();
         return starship;
     }
@@ -120,7 +123,7 @@ public class StarshipsController : ControllerBase
 
         if (!string.IsNullOrWhiteSpace(starship.Image))
             await _imageService.DeleteImage(starship.Image.Split('/').Last(), StarshipsConstants.Storage_Container);
-            
+
         _context.Starships.Remove(starship);
         var result = await _context.SaveChangesAsync() > 0;
         if (result) return Ok();
@@ -129,7 +132,7 @@ public class StarshipsController : ControllerBase
     }
 
     [HttpGet("filters")]
-    public async Task<IActionResult> GetFilters()
+    public async Task<ActionResult> GetFilters()
     {
         var shipClasses = await _context.Starships
                                     .Where(s => !string.IsNullOrWhiteSpace(s.StarshipClass))
@@ -140,4 +143,81 @@ public class StarshipsController : ControllerBase
 
         return Ok(new { shipClasses });
     }
+
+    [HttpPost("addFilms")]
+    public async Task<ActionResult> AddFilmsToShip(FilmShipListDto filmShipsDto)
+    {
+        Starship starship = await GetStarshipByIdAsync(filmShipsDto.StarshipId);
+        if (starship == null) return NotFound();
+
+        List<Film> films =  await _context.Films.Where(f => filmShipsDto.FilmIds.Any(id => f.Id == id)).ToListAsync();
+        // Remove all films if dto contains empty film ids
+        if (!films.Any() && filmShipsDto.FilmIds.Any()) return NotFound();
+
+        starship.Films = films;
+        var result = await _context.SaveChangesAsync() > 0;
+        if (result) return Ok();
+
+        return BadRequest();
+    }
+
+    // [HttpPost("addFilm")]
+    // public async Task<ActionResult> AddFilmToShip(FilmShipCreateDto newFilmShipDto)
+    // {
+    //     Starship starship = await GetStarshipByIdAsync(newFilmShipDto.StarshipId);
+    //     if (starship == null) return NotFound();
+
+    //     Film film = await _context.Films.FirstOrDefaultAsync(s => s.Id == newFilmShipDto.FilmId);
+    //     if (film == null) return NotFound();
+
+    //     starship.Films.Add(film);
+    //     var result = await _context.SaveChangesAsync() > 0;
+    //     if (result) return StatusCode(201);
+
+    //     return BadRequest();
+    // }
+
+    // [HttpDelete("removeFilm")]
+    // public async Task<ActionResult> RemoveFilmFromShip(FilmShipCreateDto filmShipDto)
+    // {
+    //     Starship starship = await GetStarshipByIdAsync(filmShipDto.StarshipId);
+    //     if (starship == null) return NotFound();
+
+    //     Film film = await _context.Films.FirstOrDefaultAsync(s => s.Id == filmShipDto.FilmId);
+    //     if (film == null) return NotFound();
+
+    //     starship.Films.Remove(film);
+    //     var result = await _context.SaveChangesAsync() > 0;
+    //     if (result) return Ok();
+
+    //     return BadRequest();
+    // }
+
+    private async Task<Starship> GetStarshipByIdAsync(int id)
+    {
+        return await _context.Starships
+                                    .Include(s => s.Films)
+                                    .FirstOrDefaultAsync(s => s.Id == id);
+    }
+
+    private async Task<StarshipDto> GetStarshipDtoByIdAsync(int id)
+    {
+        return await _context.Starships
+                                    .Include(s => s.Films)
+                                    .ProjectTo<StarshipDto>(_mapper.ConfigurationProvider)
+                                    .FirstOrDefaultAsync(s => s.Id == id);
+    }
+
+    private async Task<PagedResponse<StarshipDto>> CreateDtosAsync(IQueryable<Starship> source,
+            int pageNumber, int pageSize, string url)
+        {
+            var count = await source.CountAsync();
+            var itemsDto = await source
+                        .ProjectTo<StarshipDto>(_mapper.ConfigurationProvider)
+                        .Skip((pageNumber - 1) * pageSize)
+                        .Take(pageSize)
+                        .ToListAsync();
+            var results = new PagedList<StarshipDto>(itemsDto, count, pageNumber, pageSize);
+            return new PagedResponse<StarshipDto>(results, url);
+        }
 }

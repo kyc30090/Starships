@@ -22,7 +22,7 @@ export default function Films() {
         </Box>
         {
             films.map(film =>
-            (<Card key={film.id} sx={{ minWidth: 275 }}>
+            (<Card key={film.film_id} sx={{ minWidth: 275 }}>
                 <CardHeader
                     avatar={
                         <Avatar sx={{ bgcolor: 'secondary.main' }}>

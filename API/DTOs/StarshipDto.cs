@@ -1,15 +1,11 @@
-using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
-namespace API.Entities;
-
-public class Starship
+namespace API.DTOs
 {
-    [Key]
+    public class StarshipDto
+    {
     public int Id { get; set; }
-    [Required]
     public string Name { get; set; }
-    [Required]
     public string Model { get; set; }
     public string Manufacturer { get; set; }
     [JsonPropertyName("cost_in_credits")]
@@ -34,5 +30,6 @@ public class Starship
     public string Url { get { return $"https://swapi.dev/api/starships/{Id}/"; } }
     public string Image { get; set; }
 
-    public List<Film> Films { get; set; } = new ();
+    public List<FilmShipDto> Films { get; set; } = new ();
+    }
 }

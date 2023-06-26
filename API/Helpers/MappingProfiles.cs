@@ -8,6 +8,10 @@ namespace API.Helpers
     {
         public MappingProfiles()
         {
+            CreateMap<Starship, StarshipDto>();
+            CreateMap<Film, FilmShipDto>()
+                .ForMember(dest => dest.FilmId,
+                    opt => opt.MapFrom(src => src.Id));
             CreateMap<StarshipCreateDto, Starship>();
             CreateMap<StarshipUpdateDto, Starship>();
         }

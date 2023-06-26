@@ -19,5 +19,6 @@ namespace API.Entities
         [JsonPropertyName("opening_crawl")]
         public string OpeningCrawl { get; set;}
         public string Url { get { return $"https://swapi.dev/api/films/{Id}/"; } }
+        public List<Starship> Starships { get; set; } = new ();
     }
 }

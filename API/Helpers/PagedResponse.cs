@@ -1,5 +1,3 @@
-using Microsoft.EntityFrameworkCore;
-
 namespace API.Helpers
 {
     public class PagedResponse<T>
@@ -17,14 +15,5 @@ namespace API.Helpers
         public string Next { get; set; }
         public string Previous { get; set; }
         public PagedList<T> Results { get; set; }
-
-        public static async Task<PagedResponse<T>> CreateAsync(IQueryable<T> source,
-            int pageNumber, int pageSize, string url)
-        {
-            var count = await source.CountAsync();
-            var items = await source.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToListAsync();
-            var results = new PagedList<T>(items, count, pageNumber, pageSize);
-            return new PagedResponse<T>(results, url);
-        }
     }
 }

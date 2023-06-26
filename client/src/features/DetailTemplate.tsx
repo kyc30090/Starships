@@ -1,4 +1,4 @@
-import { Grid, Typography, Divider, TableContainer, Table, TableBody, TableRow, TableCell } from "@mui/material";
+import { Grid, Typography, Divider, TableContainer, Table, TableBody, TableRow, TableCell, Avatar, Stack } from "@mui/material";
 import { Starship } from "../app/models/starship";
 
 interface Props {
@@ -6,7 +6,7 @@ interface Props {
     starship: Starship | null;
 }
 
-export default function DetailTemplate({loading, starship}: Props) {
+export default function DetailTemplate({ loading, starship }: Props) {
 
     if (loading) return (<h3>Loading...</h3>);
     if (!starship) return (<h3>Not found</h3>);
@@ -14,11 +14,18 @@ export default function DetailTemplate({loading, starship}: Props) {
     return (
         <Grid container spacing={6}>
             <Grid item xs={6}>
-                <img src={starship.image} alt={starship.name} style={{width: '100%'}} />
+                <img src={starship.image} alt={starship.name} style={{ width: '100%' }} />
+                <Divider sx={{ mb: 2 }} />
+                <Typography variant='h6'>Films</Typography>
+                <Stack direction="row" spacing={2}>
+                    {starship.films?.map(f => (
+                        <Avatar>{f.episode_id}</Avatar>
+                    ))}
+                </Stack>
             </Grid>
             <Grid item xs={6}>
                 <Typography variant='h2'>{starship.name}</Typography>
-                <Divider sx={{mb: 2}} />
+                <Divider sx={{ mb: 2 }} />
                 <TableContainer>
                     <Table>
                         <TableBody>
@@ -97,6 +104,6 @@ export default function DetailTemplate({loading, starship}: Props) {
                 </TableContainer>
             </Grid>
         </Grid>
-        
+
     );
 }
