@@ -16,12 +16,13 @@ export default function DetailTemplate({ loading, starship }: Props) {
             <Grid item xs={6}>
                 <img src={starship.image} alt={starship.name} style={{ width: '100%' }} />
                 <Divider sx={{ mb: 2 }} />
-                <Typography variant='h6'>Films</Typography>
-                <Stack direction="row" spacing={2}>
-                    {starship.films?.map(f => (
-                        <Avatar>{f.episode_id}</Avatar>
-                    ))}
-                </Stack>
+                {!!starship.films && starship.films?.length > 0 && (<>
+                    <Typography variant='h6'>Films</Typography>
+                    <Stack direction="row" spacing={2}>
+                        {starship.films?.map(f => (
+                            <Avatar>{f.episode_id}</Avatar>
+                        ))}
+                    </Stack> </>)}
             </Grid>
             <Grid item xs={6}>
                 <Typography variant='h2'>{starship.name}</Typography>
