@@ -1,4 +1,4 @@
-import { Container, CssBaseline, ThemeProvider, Typography, createTheme } from '@mui/material';
+import { Container, CssBaseline, ThemeProvider, createTheme } from '@mui/material';
 import Header from './Header';
 import { Outlet } from 'react-router-dom';
 import { yellow } from '@mui/material/colors';
