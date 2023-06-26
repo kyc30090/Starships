@@ -1,4 +1,5 @@
 import { Film } from "./film";
+import { Person } from "./person";
 
 export interface Starship {
     id: number;
@@ -22,4 +23,5 @@ export interface Starship {
     url?: string;
     image?: string;
     films?: Film[];
+    pilots?: Person[];
 }

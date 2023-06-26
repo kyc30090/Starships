@@ -35,4 +35,5 @@ public class Starship
     public string Image { get; set; }
 
     public List<Film> Films { get; set; } = new ();
+    public List<Person> Pilots { get; set; } = new ();
 }

@@ -55,9 +55,14 @@ const Films = {
     list: () => requests.get('films')
 }
 
+const People = {
+    list: () => requests.get('people')
+}
+
 const agent = {
     Starships,
-    Films
+    Films,
+    People
 }
 
 export default agent;

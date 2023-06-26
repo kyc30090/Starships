@@ -12,6 +12,9 @@ namespace API.Helpers
             CreateMap<Film, FilmShipDto>()
                 .ForMember(dest => dest.FilmId,
                     opt => opt.MapFrom(src => src.Id));
+            CreateMap<Person, PersonShipDto>()
+                .ForMember(dest => dest.PersonId,
+                    opt => opt.MapFrom(src => src.Id));                    
             CreateMap<StarshipCreateDto, Starship>();
             CreateMap<StarshipUpdateDto, Starship>();
         }

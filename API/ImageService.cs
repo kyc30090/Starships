@@ -17,11 +17,11 @@ namespace API
             _blobClient = blobClient;
         }
 
-        public async Task<string> GetImage(string blobName, string containerName)
+        public Task<string> GetImage(string blobName, string containerName)
         {
             BlobContainerClient blobContainerClient = _blobClient.GetBlobContainerClient(containerName);
             BlobClient blobClient = blobContainerClient.GetBlobClient(blobName);
-            return blobClient.Uri.AbsoluteUri;
+            return Task.FromResult(blobClient.Uri.AbsoluteUri);
         }
 
         public async Task<string> CreateImage(string blobName, string containerName, IFormFile file)

@@ -161,42 +161,28 @@ public class StarshipsController : ControllerBase
         return BadRequest();
     }
 
-    // [HttpPost("addFilm")]
-    // public async Task<ActionResult> AddFilmToShip(FilmShipCreateDto newFilmShipDto)
-    // {
-    //     Starship starship = await GetStarshipByIdAsync(newFilmShipDto.StarshipId);
-    //     if (starship == null) return NotFound();
+    [HttpPost("addPilots")]
+    public async Task<ActionResult> AddPilotsToShip(PersonShipListDto personShipDto)
+    {
+        Starship starship = await GetStarshipByIdAsync(personShipDto.StarshipId);
+        if (starship == null) return NotFound();
 
-    //     Film film = await _context.Films.FirstOrDefaultAsync(s => s.Id == newFilmShipDto.FilmId);
-    //     if (film == null) return NotFound();
+        List<Person> people =  await _context.People.Where(p => personShipDto.PersonIds.Any(id => p.Id == id)).ToListAsync();
+        // Remove all films if dto contains empty film ids
+        if (!people.Any() && personShipDto.PersonIds.Any()) return NotFound();
 
-    //     starship.Films.Add(film);
-    //     var result = await _context.SaveChangesAsync() > 0;
-    //     if (result) return StatusCode(201);
+        starship.Pilots = people;
+        var result = await _context.SaveChangesAsync() > 0;
+        if (result) return Ok();
 
-    //     return BadRequest();
-    // }
-
-    // [HttpDelete("removeFilm")]
-    // public async Task<ActionResult> RemoveFilmFromShip(FilmShipCreateDto filmShipDto)
-    // {
-    //     Starship starship = await GetStarshipByIdAsync(filmShipDto.StarshipId);
-    //     if (starship == null) return NotFound();
-
-    //     Film film = await _context.Films.FirstOrDefaultAsync(s => s.Id == filmShipDto.FilmId);
-    //     if (film == null) return NotFound();
-
-    //     starship.Films.Remove(film);
-    //     var result = await _context.SaveChangesAsync() > 0;
-    //     if (result) return Ok();
-
-    //     return BadRequest();
-    // }
+        return BadRequest();
+    }
 
     private async Task<Starship> GetStarshipByIdAsync(int id)
     {
         return await _context.Starships
                                     .Include(s => s.Films)
+                                    .Include(s => s.Pilots)
                                     .FirstOrDefaultAsync(s => s.Id == id);
     }
 
@@ -204,6 +190,7 @@ public class StarshipsController : ControllerBase
     {
         return await _context.Starships
                                     .Include(s => s.Films)
+                                    .Include(s => s.Pilots)
                                     .ProjectTo<StarshipDto>(_mapper.ConfigurationProvider)
                                     .FirstOrDefaultAsync(s => s.Id == id);
     }

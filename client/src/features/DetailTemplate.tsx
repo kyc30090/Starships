@@ -1,5 +1,6 @@
-import { Grid, Typography, Divider, TableContainer, Table, TableBody, TableRow, TableCell, Avatar, Stack } from "@mui/material";
+import { Grid, Typography, Divider, TableContainer, Table, TableBody, TableRow, TableCell, Avatar, Stack, CardHeader } from "@mui/material";
 import { Starship } from "../app/models/starship";
+import { stringAvatar } from "./Pilots";
 
 interface Props {
     loading: boolean;
@@ -21,6 +22,17 @@ export default function DetailTemplate({ loading, starship }: Props) {
                     <Stack direction="row" spacing={2}>
                         {starship.films?.map(f => (
                             <Avatar>{f.episode_id}</Avatar>
+                        ))}
+                    </Stack> </>)}
+                <Divider sx={{ m: 2 }} />
+                {!!starship.pilots && starship.pilots?.length > 0 && (<>
+                    <Typography variant='h6'>Pilots</Typography>
+                    <Stack direction="column" spacing={2}>
+                        {starship.pilots?.map(p => (
+                            <CardHeader avatar={
+                                <Avatar {...stringAvatar(p.name)} />}
+                                title={p.name}
+                            />
                         ))}
                     </Stack> </>)}
             </Grid>
