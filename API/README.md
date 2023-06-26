@@ -8,6 +8,7 @@
 ## To run the .NET backend
 * `dotnet ef database update`
 * Standard command line `dotnet run` or run in Visual Studio
+* It uses port 5293. Swagger is located http://localhost:5293/swagger/index.html
 
 ## List of endpints
 ### Films
