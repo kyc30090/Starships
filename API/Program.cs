@@ -17,6 +17,8 @@ builder.Services.AddControllers();
 builder.Services.AddDbContext<DataContext>(opt =>
 {
     opt.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection"));
+    // opt.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+
 });
 
 builder.Services.AddAutoMapper(typeof(MappingProfiles).Assembly);
