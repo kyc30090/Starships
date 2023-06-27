@@ -16,8 +16,7 @@ builder.Services.AddSingleton<IImageService, ImageService>();
 builder.Services.AddControllers();
 builder.Services.AddDbContext<DataContext>(opt =>
 {
-    opt.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection"));
-    // opt.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+    opt.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 
 });
 
@@ -53,4 +52,16 @@ app.UseAuthorization();
 app.MapControllers();
 app.MapFallbackToController("Index", "Fallback");
 
+var scope = app.Services.CreateScope();
+var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
+var context = scope.ServiceProvider.GetRequiredService<DataContext>();
+
+try
+{
+    await context.Database.MigrateAsync();
+}
+catch (Exception ex)
+{
+    logger.LogError(ex, "A problem occurred during migration");
+}
 app.Run();

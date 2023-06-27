@@ -4,7 +4,16 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ## Available Scripts
 
-In the project directory, you can run:
+In the project directory (client), you can run:
+
+### `npm install` 
+To get all the required packages installed locally.
+### `npm run build`
+Builds the app for production to copy to API folder. This simplified local run to serve UI in API server. In API folder `dotnet run` will serve both backend and frontend. Open browser http://localhost:5293/ to start UI.
+
+---
+Default React Readme
+---
 
 ### `npm start`
 

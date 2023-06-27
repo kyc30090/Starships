@@ -3,40 +3,47 @@ using System;
 using API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace API.Data.Migrations
+namespace API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20230626204244_SqliteInitial")]
-    partial class SqliteInitial
+    [Migration("20230627171442_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder.HasAnnotation("ProductVersion", "7.0.7");
+            modelBuilder
+                .HasAnnotation("ProductVersion", "7.0.8")
+                .HasAnnotation("Relational:MaxIdentifierLength", 128);
+
+            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
             modelBuilder.Entity("API.Entities.Film", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("EpisodeId")
-                        .HasColumnType("INTEGER")
+                        .HasColumnType("int")
                         .HasAnnotation("Relational:JsonPropertyName", "episode_id");
 
                     b.Property<string>("OpeningCrawl")
-                        .HasColumnType("TEXT")
+                        .HasColumnType("nvarchar(max)")
                         .HasAnnotation("Relational:JsonPropertyName", "opening_crawl");
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -91,11 +98,13 @@ namespace API.Data.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -518,62 +527,64 @@ namespace API.Data.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("CargoCapacity")
-                        .HasColumnType("TEXT")
+                        .HasColumnType("nvarchar(max)")
                         .HasAnnotation("Relational:JsonPropertyName", "cargo_capacity");
 
                     b.Property<string>("Consumables")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("CostInCredits")
-                        .HasColumnType("TEXT")
+                        .HasColumnType("nvarchar(max)")
                         .HasAnnotation("Relational:JsonPropertyName", "cost_in_credits");
 
                     b.Property<DateTime>("Created")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Crew")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("Edited")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("HyperdriveRating")
-                        .HasColumnType("TEXT")
+                        .HasColumnType("nvarchar(max)")
                         .HasAnnotation("Relational:JsonPropertyName", "hyperdrive_rating");
 
                     b.Property<string>("Image")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Length")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("MGLT")
-                        .HasColumnType("TEXT")
+                        .HasColumnType("nvarchar(max)")
                         .HasAnnotation("Relational:JsonPropertyName", "MGLT");
 
                     b.Property<string>("Manufacturer")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("MaxAtmospheringSpeed")
-                        .HasColumnType("TEXT")
+                        .HasColumnType("nvarchar(max)")
                         .HasAnnotation("Relational:JsonPropertyName", "max_atmosphering_speed");
 
                     b.Property<string>("Model")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Passengers")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("StarshipClass")
-                        .HasColumnType("TEXT")
+                        .HasColumnType("nvarchar(max)")
                         .HasAnnotation("Relational:JsonPropertyName", "starship_class");
 
                     b.HasKey("Id");
@@ -591,6 +602,7 @@ namespace API.Data.Migrations
                             Crew = "30-165",
                             Edited = new DateTime(2014, 12, 20, 21, 23, 49, 867, DateTimeKind.Unspecified),
                             HyperdriveRating = "2.0",
+                            Image = "https://starships.blob.core.windows.net/starship-api/2.jpeg",
                             Length = "150",
                             MGLT = "60",
                             Manufacturer = "Corellian Engineering Corporation",
@@ -610,6 +622,7 @@ namespace API.Data.Migrations
                             Crew = "47,060",
                             Edited = new DateTime(2014, 12, 20, 21, 23, 49, 870, DateTimeKind.Unspecified),
                             HyperdriveRating = "2.0",
+                            Image = "https://starships.blob.core.windows.net/starship-api/3.jpeg",
                             Length = "1,600",
                             MGLT = "60",
                             Manufacturer = "Kuat Drive Yards",
@@ -769,6 +782,7 @@ namespace API.Data.Migrations
                             Crew = "6",
                             Edited = new DateTime(2014, 12, 20, 21, 23, 49, 895, DateTimeKind.Utc),
                             HyperdriveRating = "4.0",
+                            Image = "https://starships.blob.core.windows.net/starship-api/17.jpeg",
                             Length = "90",
                             MGLT = "20",
                             Manufacturer = "Gallofree Yards, Inc.",
@@ -928,6 +942,7 @@ namespace API.Data.Migrations
                             Crew = "175",
                             Edited = new DateTime(2014, 12, 20, 21, 23, 49, 915, DateTimeKind.Utc),
                             HyperdriveRating = "2.0",
+                            Image = "https://starships.blob.core.windows.net/starship-api/32.jpeg",
                             Length = "3170",
                             MGLT = "unknown",
                             Manufacturer = "Hoersch-Kessel Drive, Inc.",
@@ -1067,6 +1082,7 @@ namespace API.Data.Migrations
                             Crew = "4",
                             Edited = new DateTime(2014, 12, 20, 21, 23, 49, 932, DateTimeKind.Utc),
                             HyperdriveRating = "0.9",
+                            Image = "https://starships.blob.core.windows.net/starship-api/49.jpeg",
                             Length = "47.9",
                             MGLT = "unknown",
                             Manufacturer = "Theed Palace Space Vessel Engineering Corps",
@@ -1086,6 +1102,7 @@ namespace API.Data.Migrations
                             Crew = "700",
                             Edited = new DateTime(2014, 12, 20, 21, 23, 49, 935, DateTimeKind.Utc),
                             HyperdriveRating = "0.6",
+                            Image = "https://starships.blob.core.windows.net/starship-api/52.jpeg",
                             Length = "752",
                             MGLT = "unknown",
                             Manufacturer = "Rothana Heavy Engineering",
@@ -1105,6 +1122,7 @@ namespace API.Data.Migrations
                             Crew = "3",
                             Edited = new DateTime(2014, 12, 20, 21, 23, 49, 937, DateTimeKind.Utc),
                             HyperdriveRating = "1.5",
+                            Image = "https://starships.blob.core.windows.net/starship-api/58.jpeg",
                             Length = "15.2",
                             MGLT = "unknown",
                             Manufacturer = "Huppla Pasa Tisc Shipwrights Collective",
@@ -1124,6 +1142,7 @@ namespace API.Data.Migrations
                             Crew = "600",
                             Edited = new DateTime(2014, 12, 20, 21, 23, 49, 941, DateTimeKind.Utc),
                             HyperdriveRating = "1.5",
+                            Image = "https://starships.blob.core.windows.net/starship-api/59.jpeg",
                             Length = "1088",
                             MGLT = "unknown",
                             Manufacturer = "Rendili StarDrive, Free Dac Volunteers Engineering corps.",
@@ -1143,6 +1162,7 @@ namespace API.Data.Migrations
                             Crew = "5",
                             Edited = new DateTime(2014, 12, 20, 21, 23, 49, 944, DateTimeKind.Utc),
                             HyperdriveRating = "1.0",
+                            Image = "https://starships.blob.core.windows.net/starship-api/61.jpeg",
                             Length = "18.5",
                             MGLT = "unknown",
                             Manufacturer = "Cygnus Spaceworks",
@@ -1162,6 +1182,7 @@ namespace API.Data.Migrations
                             Crew = "7400",
                             Edited = new DateTime(2014, 12, 20, 21, 23, 49, 946, DateTimeKind.Utc),
                             HyperdriveRating = "1.0",
+                            Image = "https://starships.blob.core.windows.net/starship-api/63.jpeg",
                             Length = "1137",
                             MGLT = "unknown",
                             Manufacturer = "Kuat Drive Yards, Allanteen Six shipyards",
@@ -1181,6 +1202,7 @@ namespace API.Data.Migrations
                             Crew = "3",
                             Edited = new DateTime(2014, 12, 20, 21, 23, 49, 948, DateTimeKind.Utc),
                             HyperdriveRating = "0.5",
+                            Image = "https://starships.blob.core.windows.net/starship-api/64.jpeg",
                             Length = "29.2",
                             MGLT = "unknown",
                             Manufacturer = "Theed Palace Space Vessel Engineering Corps/Nubia Star Drives, Incorporated",
@@ -1200,6 +1222,7 @@ namespace API.Data.Migrations
                             Crew = "1",
                             Edited = new DateTime(2014, 12, 20, 21, 23, 49, 951, DateTimeKind.Utc),
                             HyperdriveRating = "1.0",
+                            Image = "https://starships.blob.core.windows.net/starship-api/65.jpeg",
                             Length = "5.47",
                             MGLT = "unknown",
                             Manufacturer = "Kuat Systems Engineering",
@@ -1219,6 +1242,7 @@ namespace API.Data.Migrations
                             Crew = "3",
                             Edited = new DateTime(2014, 12, 20, 21, 23, 49, 953, DateTimeKind.Utc),
                             HyperdriveRating = "1.0",
+                            Image = "https://starships.blob.core.windows.net/starship-api/66.jpeg",
                             Length = "14.5",
                             MGLT = "100",
                             Manufacturer = "Incom Corporation, Subpro Corporation",
@@ -1238,6 +1262,7 @@ namespace API.Data.Migrations
                             Crew = "200",
                             Edited = new DateTime(2014, 12, 20, 21, 23, 49, 956, DateTimeKind.Utc),
                             HyperdriveRating = "1.0",
+                            Image = "https://starships.blob.core.windows.net/starship-api/68.jpeg",
                             Length = "825",
                             MGLT = "unknown",
                             Manufacturer = "Hoersch-Kessel Drive, Inc, Gwori Revolutionary Industries",
@@ -1257,6 +1282,7 @@ namespace API.Data.Migrations
                             Crew = "1",
                             Edited = new DateTime(2014, 12, 20, 21, 23, 49, 959, DateTimeKind.Utc),
                             HyperdriveRating = "6",
+                            Image = "https://starships.blob.core.windows.net/starship-api/74.jpeg",
                             Length = "6.71",
                             MGLT = "unknown",
                             Manufacturer = "Feethan Ottraw Scalable Assemblies",
@@ -1276,6 +1302,7 @@ namespace API.Data.Migrations
                             Crew = "1",
                             Edited = new DateTime(2014, 12, 20, 21, 23, 49, 961, DateTimeKind.Utc),
                             HyperdriveRating = "1.0",
+                            Image = "https://starships.blob.core.windows.net/starship-api/75.jpeg",
                             Length = "7.9",
                             MGLT = "unknown",
                             Manufacturer = "Kuat Systems Engineering",
@@ -1290,10 +1317,10 @@ namespace API.Data.Migrations
             modelBuilder.Entity("FilmStarship", b =>
                 {
                     b.Property<int>("FilmsId")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
 
                     b.Property<int>("StarshipsId")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
 
                     b.HasKey("FilmsId", "StarshipsId");
 
@@ -1305,10 +1332,10 @@ namespace API.Data.Migrations
             modelBuilder.Entity("PersonStarship", b =>
                 {
                     b.Property<int>("PilotsId")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
 
                     b.Property<int>("StarshipsId")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
 
                     b.HasKey("PilotsId", "StarshipsId");
 

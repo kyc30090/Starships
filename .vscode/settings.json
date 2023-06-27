@@ -1,3 +1,5 @@
 {
-    "dotnet.defaultSolution": "starships-api.sln"
+  "dotnet.defaultSolution": "starships-api.sln",
+  "appService.preDeployTask": "publish-release",
+  "appService.deploySubpath": "API/bin/Release/net6.0/publish"
 }

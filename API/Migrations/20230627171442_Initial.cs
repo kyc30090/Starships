@@ -5,10 +5,10 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
 
-namespace API.Data.Migrations
+namespace API.Migrations
 {
     /// <inheritdoc />
-    public partial class SqliteInitial : Migration
+    public partial class Initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -17,11 +17,11 @@ namespace API.Data.Migrations
                 name: "Films",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    Title = table.Column<string>(type: "TEXT", nullable: false),
-                    EpisodeId = table.Column<int>(type: "INTEGER", nullable: false),
-                    OpeningCrawl = table.Column<string>(type: "TEXT", nullable: true)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    EpisodeId = table.Column<int>(type: "int", nullable: false),
+                    OpeningCrawl = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -32,9 +32,9 @@ namespace API.Data.Migrations
                 name: "People",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    Name = table.Column<string>(type: "TEXT", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -45,24 +45,24 @@ namespace API.Data.Migrations
                 name: "Starships",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    Name = table.Column<string>(type: "TEXT", nullable: false),
-                    Model = table.Column<string>(type: "TEXT", nullable: false),
-                    Manufacturer = table.Column<string>(type: "TEXT", nullable: true),
-                    CostInCredits = table.Column<string>(type: "TEXT", nullable: true),
-                    Length = table.Column<string>(type: "TEXT", nullable: true),
-                    MaxAtmospheringSpeed = table.Column<string>(type: "TEXT", nullable: true),
-                    Crew = table.Column<string>(type: "TEXT", nullable: true),
-                    Passengers = table.Column<string>(type: "TEXT", nullable: true),
-                    CargoCapacity = table.Column<string>(type: "TEXT", nullable: true),
-                    Consumables = table.Column<string>(type: "TEXT", nullable: true),
-                    HyperdriveRating = table.Column<string>(type: "TEXT", nullable: true),
-                    MGLT = table.Column<string>(type: "TEXT", nullable: true),
-                    StarshipClass = table.Column<string>(type: "TEXT", nullable: true),
-                    Created = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    Edited = table.Column<DateTime>(type: "TEXT", nullable: true),
-                    Image = table.Column<string>(type: "TEXT", nullable: true)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Model = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Manufacturer = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CostInCredits = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Length = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    MaxAtmospheringSpeed = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Crew = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Passengers = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CargoCapacity = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Consumables = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    HyperdriveRating = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    MGLT = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    StarshipClass = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Created = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Edited = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    Image = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -73,8 +73,8 @@ namespace API.Data.Migrations
                 name: "FilmStarship",
                 columns: table => new
                 {
-                    FilmsId = table.Column<int>(type: "INTEGER", nullable: false),
-                    StarshipsId = table.Column<int>(type: "INTEGER", nullable: false)
+                    FilmsId = table.Column<int>(type: "int", nullable: false),
+                    StarshipsId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -97,8 +97,8 @@ namespace API.Data.Migrations
                 name: "PersonStarship",
                 columns: table => new
                 {
-                    PilotsId = table.Column<int>(type: "INTEGER", nullable: false),
-                    StarshipsId = table.Column<int>(type: "INTEGER", nullable: false)
+                    PilotsId = table.Column<int>(type: "int", nullable: false),
+                    StarshipsId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -224,8 +224,8 @@ namespace API.Data.Migrations
                 columns: new[] { "Id", "CargoCapacity", "Consumables", "CostInCredits", "Created", "Crew", "Edited", "HyperdriveRating", "Image", "Length", "MGLT", "Manufacturer", "MaxAtmospheringSpeed", "Model", "Name", "Passengers", "StarshipClass" },
                 values: new object[,]
                 {
-                    { 2, "3000000", "1 year", "3500000", new DateTime(2014, 12, 10, 14, 20, 33, 369, DateTimeKind.Unspecified), "30-165", new DateTime(2014, 12, 20, 21, 23, 49, 867, DateTimeKind.Unspecified), "2.0", null, "150", "60", "Corellian Engineering Corporation", "950", "CR90 corvette", "CR90 corvette", "600", "corvette" },
-                    { 3, "36000000", "2 years", "150000000", new DateTime(2014, 12, 10, 15, 8, 19, 848, DateTimeKind.Unspecified), "47,060", new DateTime(2014, 12, 20, 21, 23, 49, 870, DateTimeKind.Unspecified), "2.0", null, "1,600", "60", "Kuat Drive Yards", "975", "Imperial I-class Star Destroyer", "Star Destroyer", "n/a", "Star Destroyer" },
+                    { 2, "3000000", "1 year", "3500000", new DateTime(2014, 12, 10, 14, 20, 33, 369, DateTimeKind.Unspecified), "30-165", new DateTime(2014, 12, 20, 21, 23, 49, 867, DateTimeKind.Unspecified), "2.0", "https://starships.blob.core.windows.net/starship-api/2.jpeg", "150", "60", "Corellian Engineering Corporation", "950", "CR90 corvette", "CR90 corvette", "600", "corvette" },
+                    { 3, "36000000", "2 years", "150000000", new DateTime(2014, 12, 10, 15, 8, 19, 848, DateTimeKind.Unspecified), "47,060", new DateTime(2014, 12, 20, 21, 23, 49, 870, DateTimeKind.Unspecified), "2.0", "https://starships.blob.core.windows.net/starship-api/3.jpeg", "1,600", "60", "Kuat Drive Yards", "975", "Imperial I-class Star Destroyer", "Star Destroyer", "n/a", "Star Destroyer" },
                     { 5, "180000", "1 month", "240000", new DateTime(2014, 12, 10, 15, 48, 0, 586, DateTimeKind.Unspecified), "5", new DateTime(2014, 12, 20, 21, 23, 49, 873, DateTimeKind.Unspecified), "1.0", "https://starships.blob.core.windows.net/starship-api/5.jpeg", "38", "70", "Sienar Fleet Systems, Cyngus Spaceworks", "1000", "Sentinel-class landing craft", "Sentinel-class landing craft", "75", "landing craft" },
                     { 9, "1000000000000", "3 years", "1000000000000", new DateTime(2014, 12, 10, 16, 36, 50, 509, DateTimeKind.Unspecified), "342,953", new DateTime(2014, 12, 20, 21, 26, 24, 783, DateTimeKind.Unspecified), "4.0", "https://starships.blob.core.windows.net/starship-api/9.jpeg", "120000", "10", "Imperial Department of Military Research, Sienar Fleet Systems", "n/a", "DS-1 Orbital Battle Station", "Death Star", "843,342", "Deep Space Mobile Battlestation" },
                     { 10, "100000", "2 months", "100000", new DateTime(2014, 12, 10, 16, 59, 45, 94, DateTimeKind.Unspecified), "4", new DateTime(2014, 12, 20, 21, 23, 49, 880, DateTimeKind.Unspecified), "0.5", "https://starships.blob.core.windows.net/starship-api/10.jpeg", "34.37", "75", "Corellian Engineering Corporation", "1050", "YT-1300 light freighter", "Millennium Falcon", "6", "Light freighter" },
@@ -233,7 +233,7 @@ namespace API.Data.Migrations
                     { 12, "110", "1 week", "149999", new DateTime(2014, 12, 12, 11, 19, 5, 340, DateTimeKind.Unspecified), "1", new DateTime(2014, 12, 20, 21, 23, 49, 886, DateTimeKind.Unspecified), "1.0", "https://starships.blob.core.windows.net/starship-api/12.jpeg", "12.5", "100", "Incom Corporation", "1050", "T-65 X-wing", "X-wing", "0", "Starfighter" },
                     { 13, "150", "5 days", "unknown", new DateTime(2014, 12, 12, 11, 21, 32, 991, DateTimeKind.Unspecified), "1", new DateTime(2014, 12, 20, 21, 23, 49, 889, DateTimeKind.Unspecified), "1.0", "https://starships.blob.core.windows.net/starship-api/13.jpeg", "9.2", "105", "Sienar Fleet Systems", "1200", "Twin Ion Engine Advanced x1", "TIE Advanced x1", "0", "Starfighter" },
                     { 15, "250000000", "6 years", "1143350000", new DateTime(2014, 12, 15, 12, 31, 42, 547, DateTimeKind.Unspecified), "279,144", new DateTime(2014, 12, 20, 21, 23, 49, 893, DateTimeKind.Unspecified), "2.0", "https://starships.blob.core.windows.net/starship-api/15.jpeg", "19000", "40", "Kuat Drive Yards, Fondor Shipyards", "n/a", "Executor-class star dreadnought", "Executor", "38000", "Star dreadnought" },
-                    { 17, "19000000", "6 months", "unknown", new DateTime(2014, 12, 15, 12, 34, 52, 264, DateTimeKind.Utc), "6", new DateTime(2014, 12, 20, 21, 23, 49, 895, DateTimeKind.Utc), "4.0", null, "90", "20", "Gallofree Yards, Inc.", "650", "GR-75 medium transport", "Rebel transport", "90", "Medium transport" },
+                    { 17, "19000000", "6 months", "unknown", new DateTime(2014, 12, 15, 12, 34, 52, 264, DateTimeKind.Utc), "6", new DateTime(2014, 12, 20, 21, 23, 49, 895, DateTimeKind.Utc), "4.0", "https://starships.blob.core.windows.net/starship-api/17.jpeg", "90", "20", "Gallofree Yards, Inc.", "650", "GR-75 medium transport", "Rebel transport", "90", "Medium transport" },
                     { 21, "70000", "1 month", "unknown", new DateTime(2014, 12, 15, 13, 0, 56, 332, DateTimeKind.Utc), "1", new DateTime(2014, 12, 20, 21, 23, 49, 897, DateTimeKind.Utc), "3.0", "https://starships.blob.core.windows.net/starship-api/21.jpeg", "21.5", "70", "Kuat Systems Engineering", "1000", "Firespray-31-class patrol and attack", "Slave 1", "6", "Patrol craft" },
                     { 22, "80000", "2 months", "240000", new DateTime(2014, 12, 15, 13, 4, 47, 235, DateTimeKind.Utc), "6", new DateTime(2014, 12, 20, 21, 23, 49, 900, DateTimeKind.Utc), "1.0", "https://starships.blob.core.windows.net/starship-api/22.jpeg", "20", "50", "Sienar Fleet Systems", "850", "Lambda-class T-4a shuttle", "Imperial shuttle", "20", "Armed government transport" },
                     { 23, "6000000", "2 years", "8500000", new DateTime(2014, 12, 15, 13, 6, 30, 813, DateTimeKind.Utc), "854", new DateTime(2014, 12, 20, 21, 23, 49, 902, DateTimeKind.Utc), "2.0", "https://starships.blob.core.windows.net/starship-api/23.jpeg", "300", "40", "Kuat Drive Yards", "800", "EF76 Nebulon-B escort frigate", "EF76 Nebulon-B escort frigate", "75", "Escort ship" },
@@ -241,25 +241,25 @@ namespace API.Data.Migrations
                     { 28, "40", "1 week", "175000", new DateTime(2014, 12, 18, 11, 16, 34, 542, DateTimeKind.Utc), "1", new DateTime(2014, 12, 20, 21, 23, 49, 907, DateTimeKind.Utc), "1.0", "https://starships.blob.core.windows.net/starship-api/28.jpeg", "9.6", "120", "Alliance Underground Engineering, Incom Corporation", "1300", "RZ-1 A-wing Interceptor", "A-wing", "0", "Starfighter" },
                     { 29, "45", "1 week", "220000", new DateTime(2014, 12, 18, 11, 18, 4, 763, DateTimeKind.Utc), "1", new DateTime(2014, 12, 20, 21, 23, 49, 909, DateTimeKind.Utc), "2.0", "https://starships.blob.core.windows.net/starship-api/29.jpeg", "16.9", "91", "Slayn & Korpil", "950", "A/SF-01 B-wing starfighter", "B-wing", "0", "Assault Starfighter" },
                     { 31, "unknown", "unknown", "unknown", new DateTime(2014, 12, 19, 17, 1, 31, 488, DateTimeKind.Utc), "9", new DateTime(2014, 12, 20, 21, 23, 49, 912, DateTimeKind.Utc), "2.0", "https://starships.blob.core.windows.net/starship-api/31.jpeg", "115", "unknown", "Corellian Engineering Corporation", "900", "Consular-class cruiser", "Republic Cruiser", "16", "Space cruiser" },
-                    { 32, "4000000000", "500 days", "unknown", new DateTime(2014, 12, 19, 17, 4, 6, 323, DateTimeKind.Utc), "175", new DateTime(2014, 12, 20, 21, 23, 49, 915, DateTimeKind.Utc), "2.0", null, "3170", "unknown", "Hoersch-Kessel Drive, Inc.", "n/a", "Lucrehulk-class Droid Control Ship", "Droid control ship", "139000", "Droid control ship" },
+                    { 32, "4000000000", "500 days", "unknown", new DateTime(2014, 12, 19, 17, 4, 6, 323, DateTimeKind.Utc), "175", new DateTime(2014, 12, 20, 21, 23, 49, 915, DateTimeKind.Utc), "2.0", "https://starships.blob.core.windows.net/starship-api/32.jpeg", "3170", "unknown", "Hoersch-Kessel Drive, Inc.", "n/a", "Lucrehulk-class Droid Control Ship", "Droid control ship", "139000", "Droid control ship" },
                     { 39, "65", "7 days", "200000", new DateTime(2014, 12, 19, 17, 39, 17, 582, DateTimeKind.Utc), "1", new DateTime(2014, 12, 20, 21, 23, 49, 917, DateTimeKind.Utc), "1.0", "https://starships.blob.core.windows.net/starship-api/39.jpeg", "11", "unknown", "Theed Palace Space Vessel Engineering Corps", "1100", "N-1 starfighter", "Naboo fighter", "0", "Starfighter" },
                     { 40, "unknown", "unknown", "unknown", new DateTime(2014, 12, 19, 17, 45, 3, 506, DateTimeKind.Utc), "8", new DateTime(2014, 12, 20, 21, 23, 49, 919, DateTimeKind.Utc), "1.8", "https://starships.blob.core.windows.net/starship-api/40.jpeg", "76", "unknown", "Theed Palace Space Vessel Engineering Corps, Nubia Star Drives", "920", "J-type 327 Nubian royal starship", "Naboo Royal Starship", "unknown", "yacht" },
                     { 41, "2500000", "30 days", "55000000", new DateTime(2014, 12, 20, 9, 39, 56, 116, DateTimeKind.Utc), "1", new DateTime(2014, 12, 20, 21, 23, 49, 922, DateTimeKind.Utc), "1.5", "https://starships.blob.core.windows.net/starship-api/41.jpeg", "26.5", "unknown", "Republic Sienar Systems", "1180", "Star Courier", "Scimitar", "6", "Space Transport" },
                     { 43, "unknown", "1 year", "2000000", new DateTime(2014, 12, 20, 11, 5, 51, 237, DateTimeKind.Utc), "5", new DateTime(2014, 12, 20, 21, 23, 49, 925, DateTimeKind.Utc), "0.7", "https://starships.blob.core.windows.net/starship-api/43.jpeg", "39", "unknown", "Theed Palace Space Vessel Engineering Corps, Nubia Star Drives", "2000", "J-type diplomatic barge", "J-type diplomatic barge", "10", "Diplomatic barge" },
                     { 47, "unknown", "unknown", "unknown", new DateTime(2014, 12, 20, 17, 24, 23, 509, DateTimeKind.Utc), "unknown", new DateTime(2014, 12, 20, 21, 23, 49, 928, DateTimeKind.Utc), "unknown", "https://starships.blob.core.windows.net/starship-api/47.jpeg", "390", "unknown", "Botajef Shipyards", "unknown", "Botajef AA-9 Freighter-Liner", "AA-9 Coruscant freighter", "30000", "freighter" },
                     { 48, "60", "7 days", "180000", new DateTime(2014, 12, 20, 17, 35, 23, 906, DateTimeKind.Utc), "1", new DateTime(2014, 12, 20, 21, 23, 49, 930, DateTimeKind.Utc), "1.0", "https://starships.blob.core.windows.net/starship-api/48.jpeg", "8", "unknown", "Kuat Systems Engineering", "1150", "Delta-7 Aethersprite-class interceptor", "Jedi starfighter", "0", "Starfighter" },
-                    { 49, "unknown", "unknown", "unknown", new DateTime(2014, 12, 20, 17, 46, 46, 847, DateTimeKind.Utc), "4", new DateTime(2014, 12, 20, 21, 23, 49, 932, DateTimeKind.Utc), "0.9", null, "47.9", "unknown", "Theed Palace Space Vessel Engineering Corps", "8000", "H-type Nubian yacht", "H-type Nubian yacht", "unknown", "yacht" },
-                    { 52, "11250000", "2 years", "unknown", new DateTime(2014, 12, 20, 18, 8, 42, 926, DateTimeKind.Utc), "700", new DateTime(2014, 12, 20, 21, 23, 49, 935, DateTimeKind.Utc), "0.6", null, "752", "unknown", "Rothana Heavy Engineering", "unknown", "Acclamator I-class assault ship", "Republic Assault ship", "16000", "assault ship" },
-                    { 58, "240", "7 days", "35700", new DateTime(2014, 12, 20, 18, 37, 56, 969, DateTimeKind.Utc), "3", new DateTime(2014, 12, 20, 21, 23, 49, 937, DateTimeKind.Utc), "1.5", null, "15.2", "unknown", "Huppla Pasa Tisc Shipwrights Collective", "1600", "Punworcca 116-class interstellar sloop", "Solar Sailer", "11", "yacht" },
-                    { 59, "50000000", "4 years", "125000000", new DateTime(2014, 12, 20, 19, 40, 21, 902, DateTimeKind.Utc), "600", new DateTime(2014, 12, 20, 21, 23, 49, 941, DateTimeKind.Utc), "1.5", null, "1088", "unknown", "Rendili StarDrive, Free Dac Volunteers Engineering corps.", "1050", "Providence-class carrier/destroyer", "Trade Federation cruiser", "48247", "capital ship" },
-                    { 61, "50000", "56 days", "1000000", new DateTime(2014, 12, 20, 19, 48, 40, 409, DateTimeKind.Utc), "5", new DateTime(2014, 12, 20, 21, 23, 49, 944, DateTimeKind.Utc), "1.0", null, "18.5", "unknown", "Cygnus Spaceworks", "2000", "Theta-class T-2c shuttle", "Theta-class T-2c shuttle", "16", "transport" },
-                    { 63, "20000000", "2 years", "59000000", new DateTime(2014, 12, 20, 19, 52, 56, 232, DateTimeKind.Utc), "7400", new DateTime(2014, 12, 20, 21, 23, 49, 946, DateTimeKind.Utc), "1.0", null, "1137", "unknown", "Kuat Drive Yards, Allanteen Six shipyards", "975", "Senator-class Star Destroyer", "Republic attack cruiser", "2000", "star destroyer" },
-                    { 64, "unknown", "unknown", "unknown", new DateTime(2014, 12, 20, 19, 55, 15, 396, DateTimeKind.Utc), "3", new DateTime(2014, 12, 20, 21, 23, 49, 948, DateTimeKind.Utc), "0.5", null, "29.2", "unknown", "Theed Palace Space Vessel Engineering Corps/Nubia Star Drives, Incorporated", "1050", "J-type star skiff", "Naboo star skiff", "3", "yacht" },
-                    { 65, "60", "2 days", "320000", new DateTime(2014, 12, 20, 19, 56, 57, 468, DateTimeKind.Utc), "1", new DateTime(2014, 12, 20, 21, 23, 49, 951, DateTimeKind.Utc), "1.0", null, "5.47", "unknown", "Kuat Systems Engineering", "1500", "Eta-2 Actis-class light interceptor", "Jedi Interceptor", "0", "starfighter" },
-                    { 66, "110", "5 days", "155000", new DateTime(2014, 12, 20, 20, 3, 48, 603, DateTimeKind.Utc), "3", new DateTime(2014, 12, 20, 21, 23, 49, 953, DateTimeKind.Utc), "1.0", null, "14.5", "100", "Incom Corporation, Subpro Corporation", "1000", "Aggressive Reconnaissance-170 starfighte", "arc-170", "0", "starfighter" },
-                    { 68, "40000000", "2 years", "57000000", new DateTime(2014, 12, 20, 20, 7, 11, 538, DateTimeKind.Utc), "200", new DateTime(2014, 12, 20, 21, 23, 49, 956, DateTimeKind.Utc), "1.0", null, "825", "unknown", "Hoersch-Kessel Drive, Inc, Gwori Revolutionary Industries", "unknown", "Munificent-class star frigate", "Banking clan frigte", "unknown", "cruiser" },
-                    { 74, "140", "7 days", "168000", new DateTime(2014, 12, 20, 20, 38, 5, 31, DateTimeKind.Utc), "1", new DateTime(2014, 12, 20, 21, 23, 49, 959, DateTimeKind.Utc), "6", null, "6.71", "unknown", "Feethan Ottraw Scalable Assemblies", "1100", "Belbullab-22 starfighter", "Belbullab-22 starfighter", "0", "starfighter" },
-                    { 75, "60", "15 hours", "102500", new DateTime(2014, 12, 20, 20, 43, 4, 349, DateTimeKind.Utc), "1", new DateTime(2014, 12, 20, 21, 23, 49, 961, DateTimeKind.Utc), "1.0", null, "7.9", "unknown", "Kuat Systems Engineering", "1050", "Alpha-3 Nimbus-class V-wing starfighter", "V-wing", "0", "starfighter" }
+                    { 49, "unknown", "unknown", "unknown", new DateTime(2014, 12, 20, 17, 46, 46, 847, DateTimeKind.Utc), "4", new DateTime(2014, 12, 20, 21, 23, 49, 932, DateTimeKind.Utc), "0.9", "https://starships.blob.core.windows.net/starship-api/49.jpeg", "47.9", "unknown", "Theed Palace Space Vessel Engineering Corps", "8000", "H-type Nubian yacht", "H-type Nubian yacht", "unknown", "yacht" },
+                    { 52, "11250000", "2 years", "unknown", new DateTime(2014, 12, 20, 18, 8, 42, 926, DateTimeKind.Utc), "700", new DateTime(2014, 12, 20, 21, 23, 49, 935, DateTimeKind.Utc), "0.6", "https://starships.blob.core.windows.net/starship-api/52.jpeg", "752", "unknown", "Rothana Heavy Engineering", "unknown", "Acclamator I-class assault ship", "Republic Assault ship", "16000", "assault ship" },
+                    { 58, "240", "7 days", "35700", new DateTime(2014, 12, 20, 18, 37, 56, 969, DateTimeKind.Utc), "3", new DateTime(2014, 12, 20, 21, 23, 49, 937, DateTimeKind.Utc), "1.5", "https://starships.blob.core.windows.net/starship-api/58.jpeg", "15.2", "unknown", "Huppla Pasa Tisc Shipwrights Collective", "1600", "Punworcca 116-class interstellar sloop", "Solar Sailer", "11", "yacht" },
+                    { 59, "50000000", "4 years", "125000000", new DateTime(2014, 12, 20, 19, 40, 21, 902, DateTimeKind.Utc), "600", new DateTime(2014, 12, 20, 21, 23, 49, 941, DateTimeKind.Utc), "1.5", "https://starships.blob.core.windows.net/starship-api/59.jpeg", "1088", "unknown", "Rendili StarDrive, Free Dac Volunteers Engineering corps.", "1050", "Providence-class carrier/destroyer", "Trade Federation cruiser", "48247", "capital ship" },
+                    { 61, "50000", "56 days", "1000000", new DateTime(2014, 12, 20, 19, 48, 40, 409, DateTimeKind.Utc), "5", new DateTime(2014, 12, 20, 21, 23, 49, 944, DateTimeKind.Utc), "1.0", "https://starships.blob.core.windows.net/starship-api/61.jpeg", "18.5", "unknown", "Cygnus Spaceworks", "2000", "Theta-class T-2c shuttle", "Theta-class T-2c shuttle", "16", "transport" },
+                    { 63, "20000000", "2 years", "59000000", new DateTime(2014, 12, 20, 19, 52, 56, 232, DateTimeKind.Utc), "7400", new DateTime(2014, 12, 20, 21, 23, 49, 946, DateTimeKind.Utc), "1.0", "https://starships.blob.core.windows.net/starship-api/63.jpeg", "1137", "unknown", "Kuat Drive Yards, Allanteen Six shipyards", "975", "Senator-class Star Destroyer", "Republic attack cruiser", "2000", "star destroyer" },
+                    { 64, "unknown", "unknown", "unknown", new DateTime(2014, 12, 20, 19, 55, 15, 396, DateTimeKind.Utc), "3", new DateTime(2014, 12, 20, 21, 23, 49, 948, DateTimeKind.Utc), "0.5", "https://starships.blob.core.windows.net/starship-api/64.jpeg", "29.2", "unknown", "Theed Palace Space Vessel Engineering Corps/Nubia Star Drives, Incorporated", "1050", "J-type star skiff", "Naboo star skiff", "3", "yacht" },
+                    { 65, "60", "2 days", "320000", new DateTime(2014, 12, 20, 19, 56, 57, 468, DateTimeKind.Utc), "1", new DateTime(2014, 12, 20, 21, 23, 49, 951, DateTimeKind.Utc), "1.0", "https://starships.blob.core.windows.net/starship-api/65.jpeg", "5.47", "unknown", "Kuat Systems Engineering", "1500", "Eta-2 Actis-class light interceptor", "Jedi Interceptor", "0", "starfighter" },
+                    { 66, "110", "5 days", "155000", new DateTime(2014, 12, 20, 20, 3, 48, 603, DateTimeKind.Utc), "3", new DateTime(2014, 12, 20, 21, 23, 49, 953, DateTimeKind.Utc), "1.0", "https://starships.blob.core.windows.net/starship-api/66.jpeg", "14.5", "100", "Incom Corporation, Subpro Corporation", "1000", "Aggressive Reconnaissance-170 starfighte", "arc-170", "0", "starfighter" },
+                    { 68, "40000000", "2 years", "57000000", new DateTime(2014, 12, 20, 20, 7, 11, 538, DateTimeKind.Utc), "200", new DateTime(2014, 12, 20, 21, 23, 49, 956, DateTimeKind.Utc), "1.0", "https://starships.blob.core.windows.net/starship-api/68.jpeg", "825", "unknown", "Hoersch-Kessel Drive, Inc, Gwori Revolutionary Industries", "unknown", "Munificent-class star frigate", "Banking clan frigte", "unknown", "cruiser" },
+                    { 74, "140", "7 days", "168000", new DateTime(2014, 12, 20, 20, 38, 5, 31, DateTimeKind.Utc), "1", new DateTime(2014, 12, 20, 21, 23, 49, 959, DateTimeKind.Utc), "6", "https://starships.blob.core.windows.net/starship-api/74.jpeg", "6.71", "unknown", "Feethan Ottraw Scalable Assemblies", "1100", "Belbullab-22 starfighter", "Belbullab-22 starfighter", "0", "starfighter" },
+                    { 75, "60", "15 hours", "102500", new DateTime(2014, 12, 20, 20, 43, 4, 349, DateTimeKind.Utc), "1", new DateTime(2014, 12, 20, 21, 23, 49, 961, DateTimeKind.Utc), "1.0", "https://starships.blob.core.windows.net/starship-api/75.jpeg", "7.9", "unknown", "Kuat Systems Engineering", "1050", "Alpha-3 Nimbus-class V-wing starfighter", "V-wing", "0", "starfighter" }
                 });
 
             migrationBuilder.CreateIndex(

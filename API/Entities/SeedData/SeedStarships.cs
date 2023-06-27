@@ -26,6 +26,7 @@ namespace API.Entities.SeedData
             //     "https://swapi.dev/api/films/3/",
             //     "https://swapi.dev/api/films/6/"
             // },
+            Image = "https://starships.blob.core.windows.net/starship-api/2.jpeg",
             Created = DateTimeOffset.Parse("2014-12-10T14:20:33.369000Z").DateTime,
             Edited = DateTimeOffset.Parse("2014-12-20T21:23:49.867000Z").DateTime
         },
@@ -50,6 +51,7 @@ namespace API.Entities.SeedData
                 // "https://swapi.dev/api/films/2/",
                 // "https://swapi.dev/api/films/3/"
                 // },
+                Image = "https://starships.blob.core.windows.net/starship-api/3.jpeg",
                 Created = DateTimeOffset.Parse("2014-12-10T15:08:19.848000Z").DateTime,
                 Edited = DateTimeOffset.Parse("2014-12-20T21:23:49.870000Z").DateTime,
             },
@@ -257,6 +259,7 @@ namespace API.Entities.SeedData
                 // "https://swapi.dev/api/films/2/",
                 // "https://swapi.dev/api/films/3/"
                 // },
+                Image = "https://starships.blob.core.windows.net/starship-api/17.jpeg",
                 Created = DateTimeOffset.Parse("2014-12-15T12:34:52.264000Z").UtcDateTime,
                 Edited = DateTimeOffset.Parse("2014-12-20T21:23:49.895000Z").UtcDateTime,
             },
@@ -461,7 +464,8 @@ namespace API.Entities.SeedData
 			// ],
 			Created= DateTimeOffset.Parse("2014-12-19T17:04:06.323000Z").UtcDateTime,
             Edited= DateTimeOffset.Parse("2014-12-20T21:23:49.915000Z").UtcDateTime,
-            Id = 32
+            Id = 32,
+            Image = "https://starships.blob.core.windows.net/starship-api/32.jpeg",
         },
         new Starship
         {
@@ -479,7 +483,7 @@ namespace API.Entities.SeedData
             MGLT = "unknown",
             StarshipClass = "Starfighter",
             // "pilots": [
-            //     "https://swapi.dev/api/people/11/",
+            //     "https://swapi.dev/api/people/11/",¬
             //     "https://swapi.dev/api/people/35/",
             //     "https://swapi.dev/api/people/60/"
             // ],
@@ -643,8 +647,8 @@ namespace API.Entities.SeedData
             // ],
 			Created = DateTimeOffset.Parse("2014-12-20T17:46:46.847000Z").UtcDateTime,
             Edited = DateTimeOffset.Parse("2014-12-20T21:23:49.932000Z").UtcDateTime,
-            Id = 49
-
+            Id = 49,
+            Image = "https://starships.blob.core.windows.net/starship-api/49.jpeg"
         },
         new Starship
         {
@@ -667,7 +671,8 @@ namespace API.Entities.SeedData
 			// ],
 			Created= DateTimeOffset.Parse("2014-12-20T18:08:42.926000Z").UtcDateTime,
             Edited= DateTimeOffset.Parse("2014-12-20T21:23:49.935000Z").UtcDateTime,
-            Id = 52
+            Id = 52,
+            Image = "https://starships.blob.core.windows.net/starship-api/52.jpeg"
         },
         new Starship
         {
@@ -690,7 +695,8 @@ namespace API.Entities.SeedData
 			// ],
 			Created= DateTimeOffset.Parse("2014-12-20T18:37:56.969000Z").UtcDateTime,
             Edited= DateTimeOffset.Parse("2014-12-20T21:23:49.937000Z").UtcDateTime,
-            Id = 58
+            Id = 58,
+            Image = "https://starships.blob.core.windows.net/starship-api/58.jpeg"
         },
         new Starship
         {
@@ -716,7 +722,8 @@ namespace API.Entities.SeedData
 			// ],
 			Created = DateTimeOffset.Parse("2014-12-20T19:40:21.902000Z").UtcDateTime,
             Edited = DateTimeOffset.Parse("2014-12-20T21:23:49.941000Z").UtcDateTime,
-            Id = 59
+            Id = 59,
+            Image = "https://starships.blob.core.windows.net/starship-api/59.jpeg"
         },
         new Starship
         {
@@ -740,6 +747,7 @@ namespace API.Entities.SeedData
 			Created = DateTimeOffset.Parse("2014-12-20T19:48:40.409000Z").UtcDateTime,
             Edited = DateTimeOffset.Parse("2014-12-20T21:23:49.944000Z").UtcDateTime,
             Id = 61,
+            Image = "https://starships.blob.core.windows.net/starship-api/61.jpeg"
         },
         new Starship
         {
@@ -762,7 +770,8 @@ namespace API.Entities.SeedData
 			// ],
 			Created = DateTimeOffset.Parse("2014-12-20T19:52:56.232000Z").UtcDateTime,
             Edited = DateTimeOffset.Parse("2014-12-20T21:23:49.946000Z").UtcDateTime,
-            Id = 63
+            Id = 63,
+            Image = "https://starships.blob.core.windows.net/starship-api/63.jpeg"
         },
         new Starship
         {
@@ -788,7 +797,8 @@ namespace API.Entities.SeedData
             // ],
             Created = DateTimeOffset.Parse("2014-12-20T19:55:15.396000Z").UtcDateTime,
             Edited = DateTimeOffset.Parse("2014-12-20T21:23:49.948000Z").UtcDateTime,
-            Id = 64
+            Id = 64,
+            Image = "https://starships.blob.core.windows.net/starship-api/64.jpeg"
         },
         new Starship
         {
@@ -814,7 +824,8 @@ namespace API.Entities.SeedData
             // ],
             Created = DateTimeOffset.Parse("2014-12-20T19:56:57.468000Z").UtcDateTime,
             Edited = DateTimeOffset.Parse("2014-12-20T21:23:49.951000Z").UtcDateTime,
-            Id = 65
+            Id = 65,
+            Image = "https://starships.blob.core.windows.net/starship-api/65.jpeg"
         },
         new Starship
         {
@@ -837,7 +848,8 @@ namespace API.Entities.SeedData
             // ],
             Created = DateTimeOffset.Parse("2014-12-20T20:03:48.603000Z").UtcDateTime,
             Edited = DateTimeOffset.Parse("2014-12-20T21:23:49.953000Z").UtcDateTime,
-            Id = 66
+            Id = 66,
+            Image = "https://starships.blob.core.windows.net/starship-api/66.jpeg"
         },
         new Starship
         {
@@ -860,7 +872,8 @@ namespace API.Entities.SeedData
             // ],
             Created = DateTimeOffset.Parse("2014-12-20T20:07:11.538000Z").UtcDateTime,
             Edited = DateTimeOffset.Parse("2014-12-20T21:23:49.956000Z").UtcDateTime,
-            Id = 68
+            Id = 68,
+            Image = "https://starships.blob.core.windows.net/starship-api/68.jpeg"
         },
         new Starship
         {
@@ -886,7 +899,8 @@ namespace API.Entities.SeedData
             // ],
             Created = DateTimeOffset.Parse("2014-12-20T20:38:05.031000Z").UtcDateTime,
             Edited = DateTimeOffset.Parse("2014-12-20T21:23:49.959000Z").UtcDateTime,
-            Id = 74
+            Id = 74,
+            Image = "https://starships.blob.core.windows.net/starship-api/74.jpeg"
         },
         new Starship
         {
@@ -909,13 +923,9 @@ namespace API.Entities.SeedData
             // ],
             Created = DateTimeOffset.Parse("2014-12-20T20:43:04.349000Z").UtcDateTime,
             Edited = DateTimeOffset.Parse("2014-12-20T21:23:49.961000Z").UtcDateTime,
-            Id = 75
+            Id = 75,
+            Image = "https://starships.blob.core.windows.net/starship-api/75.jpeg"
         }
-
-
-
-
-
             };
         }
     }
