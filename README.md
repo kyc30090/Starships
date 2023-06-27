@@ -1,4 +1,7 @@
 # Starships
+## App is deployed online
+App is now dockerized and available for testing at https://starships.azurewebsites.net
+
 ## [Backend](API) is using .NET 6 Web API 
 ## [Frontend](client) is using React with Material UI (MUI) for base components and stylings.
 
