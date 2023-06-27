@@ -3,37 +3,47 @@ using System;
 using API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace API.Data.Migrations
+namespace API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20230627171442_Initial")]
+    partial class Initial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder.HasAnnotation("ProductVersion", "7.0.7");
+            modelBuilder
+                .HasAnnotation("ProductVersion", "7.0.8")
+                .HasAnnotation("Relational:MaxIdentifierLength", 128);
+
+            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
             modelBuilder.Entity("API.Entities.Film", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("EpisodeId")
-                        .HasColumnType("INTEGER")
+                        .HasColumnType("int")
                         .HasAnnotation("Relational:JsonPropertyName", "episode_id");
 
                     b.Property<string>("OpeningCrawl")
-                        .HasColumnType("TEXT")
+                        .HasColumnType("nvarchar(max)")
                         .HasAnnotation("Relational:JsonPropertyName", "opening_crawl");
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -88,11 +98,13 @@ namespace API.Data.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -515,62 +527,64 @@ namespace API.Data.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("CargoCapacity")
-                        .HasColumnType("TEXT")
+                        .HasColumnType("nvarchar(max)")
                         .HasAnnotation("Relational:JsonPropertyName", "cargo_capacity");
 
                     b.Property<string>("Consumables")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("CostInCredits")
-                        .HasColumnType("TEXT")
+                        .HasColumnType("nvarchar(max)")
                         .HasAnnotation("Relational:JsonPropertyName", "cost_in_credits");
 
                     b.Property<DateTime>("Created")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Crew")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("Edited")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("HyperdriveRating")
-                        .HasColumnType("TEXT")
+                        .HasColumnType("nvarchar(max)")
                         .HasAnnotation("Relational:JsonPropertyName", "hyperdrive_rating");
 
                     b.Property<string>("Image")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Length")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("MGLT")
-                        .HasColumnType("TEXT")
+                        .HasColumnType("nvarchar(max)")
                         .HasAnnotation("Relational:JsonPropertyName", "MGLT");
 
                     b.Property<string>("Manufacturer")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("MaxAtmospheringSpeed")
-                        .HasColumnType("TEXT")
+                        .HasColumnType("nvarchar(max)")
                         .HasAnnotation("Relational:JsonPropertyName", "max_atmosphering_speed");
 
                     b.Property<string>("Model")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Passengers")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("StarshipClass")
-                        .HasColumnType("TEXT")
+                        .HasColumnType("nvarchar(max)")
                         .HasAnnotation("Relational:JsonPropertyName", "starship_class");
 
                     b.HasKey("Id");
@@ -588,6 +602,7 @@ namespace API.Data.Migrations
                             Crew = "30-165",
                             Edited = new DateTime(2014, 12, 20, 21, 23, 49, 867, DateTimeKind.Unspecified),
                             HyperdriveRating = "2.0",
+                            Image = "https://starships.blob.core.windows.net/starship-api/2.jpeg",
                             Length = "150",
                             MGLT = "60",
                             Manufacturer = "Corellian Engineering Corporation",
@@ -607,6 +622,7 @@ namespace API.Data.Migrations
                             Crew = "47,060",
                             Edited = new DateTime(2014, 12, 20, 21, 23, 49, 870, DateTimeKind.Unspecified),
                             HyperdriveRating = "2.0",
+                            Image = "https://starships.blob.core.windows.net/starship-api/3.jpeg",
                             Length = "1,600",
                             MGLT = "60",
                             Manufacturer = "Kuat Drive Yards",
@@ -626,6 +642,7 @@ namespace API.Data.Migrations
                             Crew = "5",
                             Edited = new DateTime(2014, 12, 20, 21, 23, 49, 873, DateTimeKind.Unspecified),
                             HyperdriveRating = "1.0",
+                            Image = "https://starships.blob.core.windows.net/starship-api/5.jpeg",
                             Length = "38",
                             MGLT = "70",
                             Manufacturer = "Sienar Fleet Systems, Cyngus Spaceworks",
@@ -645,6 +662,7 @@ namespace API.Data.Migrations
                             Crew = "342,953",
                             Edited = new DateTime(2014, 12, 20, 21, 26, 24, 783, DateTimeKind.Unspecified),
                             HyperdriveRating = "4.0",
+                            Image = "https://starships.blob.core.windows.net/starship-api/9.jpeg",
                             Length = "120000",
                             MGLT = "10",
                             Manufacturer = "Imperial Department of Military Research, Sienar Fleet Systems",
@@ -664,6 +682,7 @@ namespace API.Data.Migrations
                             Crew = "4",
                             Edited = new DateTime(2014, 12, 20, 21, 23, 49, 880, DateTimeKind.Unspecified),
                             HyperdriveRating = "0.5",
+                            Image = "https://starships.blob.core.windows.net/starship-api/10.jpeg",
                             Length = "34.37",
                             MGLT = "75",
                             Manufacturer = "Corellian Engineering Corporation",
@@ -683,6 +702,7 @@ namespace API.Data.Migrations
                             Crew = "2",
                             Edited = new DateTime(2014, 12, 20, 21, 23, 49, 883, DateTimeKind.Unspecified),
                             HyperdriveRating = "1.0",
+                            Image = "https://starships.blob.core.windows.net/starship-api/11.jpeg",
                             Length = "14",
                             MGLT = "80",
                             Manufacturer = "Koensayr Manufacturing",
@@ -702,6 +722,7 @@ namespace API.Data.Migrations
                             Crew = "1",
                             Edited = new DateTime(2014, 12, 20, 21, 23, 49, 886, DateTimeKind.Unspecified),
                             HyperdriveRating = "1.0",
+                            Image = "https://starships.blob.core.windows.net/starship-api/12.jpeg",
                             Length = "12.5",
                             MGLT = "100",
                             Manufacturer = "Incom Corporation",
@@ -721,6 +742,7 @@ namespace API.Data.Migrations
                             Crew = "1",
                             Edited = new DateTime(2014, 12, 20, 21, 23, 49, 889, DateTimeKind.Unspecified),
                             HyperdriveRating = "1.0",
+                            Image = "https://starships.blob.core.windows.net/starship-api/13.jpeg",
                             Length = "9.2",
                             MGLT = "105",
                             Manufacturer = "Sienar Fleet Systems",
@@ -740,6 +762,7 @@ namespace API.Data.Migrations
                             Crew = "279,144",
                             Edited = new DateTime(2014, 12, 20, 21, 23, 49, 893, DateTimeKind.Unspecified),
                             HyperdriveRating = "2.0",
+                            Image = "https://starships.blob.core.windows.net/starship-api/15.jpeg",
                             Length = "19000",
                             MGLT = "40",
                             Manufacturer = "Kuat Drive Yards, Fondor Shipyards",
@@ -759,6 +782,7 @@ namespace API.Data.Migrations
                             Crew = "6",
                             Edited = new DateTime(2014, 12, 20, 21, 23, 49, 895, DateTimeKind.Utc),
                             HyperdriveRating = "4.0",
+                            Image = "https://starships.blob.core.windows.net/starship-api/17.jpeg",
                             Length = "90",
                             MGLT = "20",
                             Manufacturer = "Gallofree Yards, Inc.",
@@ -767,16 +791,536 @@ namespace API.Data.Migrations
                             Name = "Rebel transport",
                             Passengers = "90",
                             StarshipClass = "Medium transport"
+                        },
+                        new
+                        {
+                            Id = 21,
+                            CargoCapacity = "70000",
+                            Consumables = "1 month",
+                            CostInCredits = "unknown",
+                            Created = new DateTime(2014, 12, 15, 13, 0, 56, 332, DateTimeKind.Utc),
+                            Crew = "1",
+                            Edited = new DateTime(2014, 12, 20, 21, 23, 49, 897, DateTimeKind.Utc),
+                            HyperdriveRating = "3.0",
+                            Image = "https://starships.blob.core.windows.net/starship-api/21.jpeg",
+                            Length = "21.5",
+                            MGLT = "70",
+                            Manufacturer = "Kuat Systems Engineering",
+                            MaxAtmospheringSpeed = "1000",
+                            Model = "Firespray-31-class patrol and attack",
+                            Name = "Slave 1",
+                            Passengers = "6",
+                            StarshipClass = "Patrol craft"
+                        },
+                        new
+                        {
+                            Id = 22,
+                            CargoCapacity = "80000",
+                            Consumables = "2 months",
+                            CostInCredits = "240000",
+                            Created = new DateTime(2014, 12, 15, 13, 4, 47, 235, DateTimeKind.Utc),
+                            Crew = "6",
+                            Edited = new DateTime(2014, 12, 20, 21, 23, 49, 900, DateTimeKind.Utc),
+                            HyperdriveRating = "1.0",
+                            Image = "https://starships.blob.core.windows.net/starship-api/22.jpeg",
+                            Length = "20",
+                            MGLT = "50",
+                            Manufacturer = "Sienar Fleet Systems",
+                            MaxAtmospheringSpeed = "850",
+                            Model = "Lambda-class T-4a shuttle",
+                            Name = "Imperial shuttle",
+                            Passengers = "20",
+                            StarshipClass = "Armed government transport"
+                        },
+                        new
+                        {
+                            Id = 23,
+                            CargoCapacity = "6000000",
+                            Consumables = "2 years",
+                            CostInCredits = "8500000",
+                            Created = new DateTime(2014, 12, 15, 13, 6, 30, 813, DateTimeKind.Utc),
+                            Crew = "854",
+                            Edited = new DateTime(2014, 12, 20, 21, 23, 49, 902, DateTimeKind.Utc),
+                            HyperdriveRating = "2.0",
+                            Image = "https://starships.blob.core.windows.net/starship-api/23.jpeg",
+                            Length = "300",
+                            MGLT = "40",
+                            Manufacturer = "Kuat Drive Yards",
+                            MaxAtmospheringSpeed = "800",
+                            Model = "EF76 Nebulon-B escort frigate",
+                            Name = "EF76 Nebulon-B escort frigate",
+                            Passengers = "75",
+                            StarshipClass = "Escort ship"
+                        },
+                        new
+                        {
+                            Id = 27,
+                            CargoCapacity = "unknown",
+                            Consumables = "2 years",
+                            CostInCredits = "104000000",
+                            Created = new DateTime(2014, 12, 18, 10, 54, 57, 804, DateTimeKind.Utc),
+                            Crew = "5400",
+                            Edited = new DateTime(2014, 12, 20, 21, 23, 49, 904, DateTimeKind.Utc),
+                            HyperdriveRating = "1.0",
+                            Image = "https://starships.blob.core.windows.net/starship-api/27.jpeg",
+                            Length = "1200",
+                            MGLT = "60",
+                            Manufacturer = "Mon Calamari shipyards",
+                            MaxAtmospheringSpeed = "n/a",
+                            Model = "MC80 Liberty type Star Cruiser",
+                            Name = "Calamari Cruiser",
+                            Passengers = "1200",
+                            StarshipClass = "Star Cruiser"
+                        },
+                        new
+                        {
+                            Id = 28,
+                            CargoCapacity = "40",
+                            Consumables = "1 week",
+                            CostInCredits = "175000",
+                            Created = new DateTime(2014, 12, 18, 11, 16, 34, 542, DateTimeKind.Utc),
+                            Crew = "1",
+                            Edited = new DateTime(2014, 12, 20, 21, 23, 49, 907, DateTimeKind.Utc),
+                            HyperdriveRating = "1.0",
+                            Image = "https://starships.blob.core.windows.net/starship-api/28.jpeg",
+                            Length = "9.6",
+                            MGLT = "120",
+                            Manufacturer = "Alliance Underground Engineering, Incom Corporation",
+                            MaxAtmospheringSpeed = "1300",
+                            Model = "RZ-1 A-wing Interceptor",
+                            Name = "A-wing",
+                            Passengers = "0",
+                            StarshipClass = "Starfighter"
+                        },
+                        new
+                        {
+                            Id = 29,
+                            CargoCapacity = "45",
+                            Consumables = "1 week",
+                            CostInCredits = "220000",
+                            Created = new DateTime(2014, 12, 18, 11, 18, 4, 763, DateTimeKind.Utc),
+                            Crew = "1",
+                            Edited = new DateTime(2014, 12, 20, 21, 23, 49, 909, DateTimeKind.Utc),
+                            HyperdriveRating = "2.0",
+                            Image = "https://starships.blob.core.windows.net/starship-api/29.jpeg",
+                            Length = "16.9",
+                            MGLT = "91",
+                            Manufacturer = "Slayn & Korpil",
+                            MaxAtmospheringSpeed = "950",
+                            Model = "A/SF-01 B-wing starfighter",
+                            Name = "B-wing",
+                            Passengers = "0",
+                            StarshipClass = "Assault Starfighter"
+                        },
+                        new
+                        {
+                            Id = 31,
+                            CargoCapacity = "unknown",
+                            Consumables = "unknown",
+                            CostInCredits = "unknown",
+                            Created = new DateTime(2014, 12, 19, 17, 1, 31, 488, DateTimeKind.Utc),
+                            Crew = "9",
+                            Edited = new DateTime(2014, 12, 20, 21, 23, 49, 912, DateTimeKind.Utc),
+                            HyperdriveRating = "2.0",
+                            Image = "https://starships.blob.core.windows.net/starship-api/31.jpeg",
+                            Length = "115",
+                            MGLT = "unknown",
+                            Manufacturer = "Corellian Engineering Corporation",
+                            MaxAtmospheringSpeed = "900",
+                            Model = "Consular-class cruiser",
+                            Name = "Republic Cruiser",
+                            Passengers = "16",
+                            StarshipClass = "Space cruiser"
+                        },
+                        new
+                        {
+                            Id = 32,
+                            CargoCapacity = "4000000000",
+                            Consumables = "500 days",
+                            CostInCredits = "unknown",
+                            Created = new DateTime(2014, 12, 19, 17, 4, 6, 323, DateTimeKind.Utc),
+                            Crew = "175",
+                            Edited = new DateTime(2014, 12, 20, 21, 23, 49, 915, DateTimeKind.Utc),
+                            HyperdriveRating = "2.0",
+                            Image = "https://starships.blob.core.windows.net/starship-api/32.jpeg",
+                            Length = "3170",
+                            MGLT = "unknown",
+                            Manufacturer = "Hoersch-Kessel Drive, Inc.",
+                            MaxAtmospheringSpeed = "n/a",
+                            Model = "Lucrehulk-class Droid Control Ship",
+                            Name = "Droid control ship",
+                            Passengers = "139000",
+                            StarshipClass = "Droid control ship"
+                        },
+                        new
+                        {
+                            Id = 39,
+                            CargoCapacity = "65",
+                            Consumables = "7 days",
+                            CostInCredits = "200000",
+                            Created = new DateTime(2014, 12, 19, 17, 39, 17, 582, DateTimeKind.Utc),
+                            Crew = "1",
+                            Edited = new DateTime(2014, 12, 20, 21, 23, 49, 917, DateTimeKind.Utc),
+                            HyperdriveRating = "1.0",
+                            Image = "https://starships.blob.core.windows.net/starship-api/39.jpeg",
+                            Length = "11",
+                            MGLT = "unknown",
+                            Manufacturer = "Theed Palace Space Vessel Engineering Corps",
+                            MaxAtmospheringSpeed = "1100",
+                            Model = "N-1 starfighter",
+                            Name = "Naboo fighter",
+                            Passengers = "0",
+                            StarshipClass = "Starfighter"
+                        },
+                        new
+                        {
+                            Id = 40,
+                            CargoCapacity = "unknown",
+                            Consumables = "unknown",
+                            CostInCredits = "unknown",
+                            Created = new DateTime(2014, 12, 19, 17, 45, 3, 506, DateTimeKind.Utc),
+                            Crew = "8",
+                            Edited = new DateTime(2014, 12, 20, 21, 23, 49, 919, DateTimeKind.Utc),
+                            HyperdriveRating = "1.8",
+                            Image = "https://starships.blob.core.windows.net/starship-api/40.jpeg",
+                            Length = "76",
+                            MGLT = "unknown",
+                            Manufacturer = "Theed Palace Space Vessel Engineering Corps, Nubia Star Drives",
+                            MaxAtmospheringSpeed = "920",
+                            Model = "J-type 327 Nubian royal starship",
+                            Name = "Naboo Royal Starship",
+                            Passengers = "unknown",
+                            StarshipClass = "yacht"
+                        },
+                        new
+                        {
+                            Id = 41,
+                            CargoCapacity = "2500000",
+                            Consumables = "30 days",
+                            CostInCredits = "55000000",
+                            Created = new DateTime(2014, 12, 20, 9, 39, 56, 116, DateTimeKind.Utc),
+                            Crew = "1",
+                            Edited = new DateTime(2014, 12, 20, 21, 23, 49, 922, DateTimeKind.Utc),
+                            HyperdriveRating = "1.5",
+                            Image = "https://starships.blob.core.windows.net/starship-api/41.jpeg",
+                            Length = "26.5",
+                            MGLT = "unknown",
+                            Manufacturer = "Republic Sienar Systems",
+                            MaxAtmospheringSpeed = "1180",
+                            Model = "Star Courier",
+                            Name = "Scimitar",
+                            Passengers = "6",
+                            StarshipClass = "Space Transport"
+                        },
+                        new
+                        {
+                            Id = 43,
+                            CargoCapacity = "unknown",
+                            Consumables = "1 year",
+                            CostInCredits = "2000000",
+                            Created = new DateTime(2014, 12, 20, 11, 5, 51, 237, DateTimeKind.Utc),
+                            Crew = "5",
+                            Edited = new DateTime(2014, 12, 20, 21, 23, 49, 925, DateTimeKind.Utc),
+                            HyperdriveRating = "0.7",
+                            Image = "https://starships.blob.core.windows.net/starship-api/43.jpeg",
+                            Length = "39",
+                            MGLT = "unknown",
+                            Manufacturer = "Theed Palace Space Vessel Engineering Corps, Nubia Star Drives",
+                            MaxAtmospheringSpeed = "2000",
+                            Model = "J-type diplomatic barge",
+                            Name = "J-type diplomatic barge",
+                            Passengers = "10",
+                            StarshipClass = "Diplomatic barge"
+                        },
+                        new
+                        {
+                            Id = 47,
+                            CargoCapacity = "unknown",
+                            Consumables = "unknown",
+                            CostInCredits = "unknown",
+                            Created = new DateTime(2014, 12, 20, 17, 24, 23, 509, DateTimeKind.Utc),
+                            Crew = "unknown",
+                            Edited = new DateTime(2014, 12, 20, 21, 23, 49, 928, DateTimeKind.Utc),
+                            HyperdriveRating = "unknown",
+                            Image = "https://starships.blob.core.windows.net/starship-api/47.jpeg",
+                            Length = "390",
+                            MGLT = "unknown",
+                            Manufacturer = "Botajef Shipyards",
+                            MaxAtmospheringSpeed = "unknown",
+                            Model = "Botajef AA-9 Freighter-Liner",
+                            Name = "AA-9 Coruscant freighter",
+                            Passengers = "30000",
+                            StarshipClass = "freighter"
+                        },
+                        new
+                        {
+                            Id = 48,
+                            CargoCapacity = "60",
+                            Consumables = "7 days",
+                            CostInCredits = "180000",
+                            Created = new DateTime(2014, 12, 20, 17, 35, 23, 906, DateTimeKind.Utc),
+                            Crew = "1",
+                            Edited = new DateTime(2014, 12, 20, 21, 23, 49, 930, DateTimeKind.Utc),
+                            HyperdriveRating = "1.0",
+                            Image = "https://starships.blob.core.windows.net/starship-api/48.jpeg",
+                            Length = "8",
+                            MGLT = "unknown",
+                            Manufacturer = "Kuat Systems Engineering",
+                            MaxAtmospheringSpeed = "1150",
+                            Model = "Delta-7 Aethersprite-class interceptor",
+                            Name = "Jedi starfighter",
+                            Passengers = "0",
+                            StarshipClass = "Starfighter"
+                        },
+                        new
+                        {
+                            Id = 49,
+                            CargoCapacity = "unknown",
+                            Consumables = "unknown",
+                            CostInCredits = "unknown",
+                            Created = new DateTime(2014, 12, 20, 17, 46, 46, 847, DateTimeKind.Utc),
+                            Crew = "4",
+                            Edited = new DateTime(2014, 12, 20, 21, 23, 49, 932, DateTimeKind.Utc),
+                            HyperdriveRating = "0.9",
+                            Image = "https://starships.blob.core.windows.net/starship-api/49.jpeg",
+                            Length = "47.9",
+                            MGLT = "unknown",
+                            Manufacturer = "Theed Palace Space Vessel Engineering Corps",
+                            MaxAtmospheringSpeed = "8000",
+                            Model = "H-type Nubian yacht",
+                            Name = "H-type Nubian yacht",
+                            Passengers = "unknown",
+                            StarshipClass = "yacht"
+                        },
+                        new
+                        {
+                            Id = 52,
+                            CargoCapacity = "11250000",
+                            Consumables = "2 years",
+                            CostInCredits = "unknown",
+                            Created = new DateTime(2014, 12, 20, 18, 8, 42, 926, DateTimeKind.Utc),
+                            Crew = "700",
+                            Edited = new DateTime(2014, 12, 20, 21, 23, 49, 935, DateTimeKind.Utc),
+                            HyperdriveRating = "0.6",
+                            Image = "https://starships.blob.core.windows.net/starship-api/52.jpeg",
+                            Length = "752",
+                            MGLT = "unknown",
+                            Manufacturer = "Rothana Heavy Engineering",
+                            MaxAtmospheringSpeed = "unknown",
+                            Model = "Acclamator I-class assault ship",
+                            Name = "Republic Assault ship",
+                            Passengers = "16000",
+                            StarshipClass = "assault ship"
+                        },
+                        new
+                        {
+                            Id = 58,
+                            CargoCapacity = "240",
+                            Consumables = "7 days",
+                            CostInCredits = "35700",
+                            Created = new DateTime(2014, 12, 20, 18, 37, 56, 969, DateTimeKind.Utc),
+                            Crew = "3",
+                            Edited = new DateTime(2014, 12, 20, 21, 23, 49, 937, DateTimeKind.Utc),
+                            HyperdriveRating = "1.5",
+                            Image = "https://starships.blob.core.windows.net/starship-api/58.jpeg",
+                            Length = "15.2",
+                            MGLT = "unknown",
+                            Manufacturer = "Huppla Pasa Tisc Shipwrights Collective",
+                            MaxAtmospheringSpeed = "1600",
+                            Model = "Punworcca 116-class interstellar sloop",
+                            Name = "Solar Sailer",
+                            Passengers = "11",
+                            StarshipClass = "yacht"
+                        },
+                        new
+                        {
+                            Id = 59,
+                            CargoCapacity = "50000000",
+                            Consumables = "4 years",
+                            CostInCredits = "125000000",
+                            Created = new DateTime(2014, 12, 20, 19, 40, 21, 902, DateTimeKind.Utc),
+                            Crew = "600",
+                            Edited = new DateTime(2014, 12, 20, 21, 23, 49, 941, DateTimeKind.Utc),
+                            HyperdriveRating = "1.5",
+                            Image = "https://starships.blob.core.windows.net/starship-api/59.jpeg",
+                            Length = "1088",
+                            MGLT = "unknown",
+                            Manufacturer = "Rendili StarDrive, Free Dac Volunteers Engineering corps.",
+                            MaxAtmospheringSpeed = "1050",
+                            Model = "Providence-class carrier/destroyer",
+                            Name = "Trade Federation cruiser",
+                            Passengers = "48247",
+                            StarshipClass = "capital ship"
+                        },
+                        new
+                        {
+                            Id = 61,
+                            CargoCapacity = "50000",
+                            Consumables = "56 days",
+                            CostInCredits = "1000000",
+                            Created = new DateTime(2014, 12, 20, 19, 48, 40, 409, DateTimeKind.Utc),
+                            Crew = "5",
+                            Edited = new DateTime(2014, 12, 20, 21, 23, 49, 944, DateTimeKind.Utc),
+                            HyperdriveRating = "1.0",
+                            Image = "https://starships.blob.core.windows.net/starship-api/61.jpeg",
+                            Length = "18.5",
+                            MGLT = "unknown",
+                            Manufacturer = "Cygnus Spaceworks",
+                            MaxAtmospheringSpeed = "2000",
+                            Model = "Theta-class T-2c shuttle",
+                            Name = "Theta-class T-2c shuttle",
+                            Passengers = "16",
+                            StarshipClass = "transport"
+                        },
+                        new
+                        {
+                            Id = 63,
+                            CargoCapacity = "20000000",
+                            Consumables = "2 years",
+                            CostInCredits = "59000000",
+                            Created = new DateTime(2014, 12, 20, 19, 52, 56, 232, DateTimeKind.Utc),
+                            Crew = "7400",
+                            Edited = new DateTime(2014, 12, 20, 21, 23, 49, 946, DateTimeKind.Utc),
+                            HyperdriveRating = "1.0",
+                            Image = "https://starships.blob.core.windows.net/starship-api/63.jpeg",
+                            Length = "1137",
+                            MGLT = "unknown",
+                            Manufacturer = "Kuat Drive Yards, Allanteen Six shipyards",
+                            MaxAtmospheringSpeed = "975",
+                            Model = "Senator-class Star Destroyer",
+                            Name = "Republic attack cruiser",
+                            Passengers = "2000",
+                            StarshipClass = "star destroyer"
+                        },
+                        new
+                        {
+                            Id = 64,
+                            CargoCapacity = "unknown",
+                            Consumables = "unknown",
+                            CostInCredits = "unknown",
+                            Created = new DateTime(2014, 12, 20, 19, 55, 15, 396, DateTimeKind.Utc),
+                            Crew = "3",
+                            Edited = new DateTime(2014, 12, 20, 21, 23, 49, 948, DateTimeKind.Utc),
+                            HyperdriveRating = "0.5",
+                            Image = "https://starships.blob.core.windows.net/starship-api/64.jpeg",
+                            Length = "29.2",
+                            MGLT = "unknown",
+                            Manufacturer = "Theed Palace Space Vessel Engineering Corps/Nubia Star Drives, Incorporated",
+                            MaxAtmospheringSpeed = "1050",
+                            Model = "J-type star skiff",
+                            Name = "Naboo star skiff",
+                            Passengers = "3",
+                            StarshipClass = "yacht"
+                        },
+                        new
+                        {
+                            Id = 65,
+                            CargoCapacity = "60",
+                            Consumables = "2 days",
+                            CostInCredits = "320000",
+                            Created = new DateTime(2014, 12, 20, 19, 56, 57, 468, DateTimeKind.Utc),
+                            Crew = "1",
+                            Edited = new DateTime(2014, 12, 20, 21, 23, 49, 951, DateTimeKind.Utc),
+                            HyperdriveRating = "1.0",
+                            Image = "https://starships.blob.core.windows.net/starship-api/65.jpeg",
+                            Length = "5.47",
+                            MGLT = "unknown",
+                            Manufacturer = "Kuat Systems Engineering",
+                            MaxAtmospheringSpeed = "1500",
+                            Model = "Eta-2 Actis-class light interceptor",
+                            Name = "Jedi Interceptor",
+                            Passengers = "0",
+                            StarshipClass = "starfighter"
+                        },
+                        new
+                        {
+                            Id = 66,
+                            CargoCapacity = "110",
+                            Consumables = "5 days",
+                            CostInCredits = "155000",
+                            Created = new DateTime(2014, 12, 20, 20, 3, 48, 603, DateTimeKind.Utc),
+                            Crew = "3",
+                            Edited = new DateTime(2014, 12, 20, 21, 23, 49, 953, DateTimeKind.Utc),
+                            HyperdriveRating = "1.0",
+                            Image = "https://starships.blob.core.windows.net/starship-api/66.jpeg",
+                            Length = "14.5",
+                            MGLT = "100",
+                            Manufacturer = "Incom Corporation, Subpro Corporation",
+                            MaxAtmospheringSpeed = "1000",
+                            Model = "Aggressive Reconnaissance-170 starfighte",
+                            Name = "arc-170",
+                            Passengers = "0",
+                            StarshipClass = "starfighter"
+                        },
+                        new
+                        {
+                            Id = 68,
+                            CargoCapacity = "40000000",
+                            Consumables = "2 years",
+                            CostInCredits = "57000000",
+                            Created = new DateTime(2014, 12, 20, 20, 7, 11, 538, DateTimeKind.Utc),
+                            Crew = "200",
+                            Edited = new DateTime(2014, 12, 20, 21, 23, 49, 956, DateTimeKind.Utc),
+                            HyperdriveRating = "1.0",
+                            Image = "https://starships.blob.core.windows.net/starship-api/68.jpeg",
+                            Length = "825",
+                            MGLT = "unknown",
+                            Manufacturer = "Hoersch-Kessel Drive, Inc, Gwori Revolutionary Industries",
+                            MaxAtmospheringSpeed = "unknown",
+                            Model = "Munificent-class star frigate",
+                            Name = "Banking clan frigte",
+                            Passengers = "unknown",
+                            StarshipClass = "cruiser"
+                        },
+                        new
+                        {
+                            Id = 74,
+                            CargoCapacity = "140",
+                            Consumables = "7 days",
+                            CostInCredits = "168000",
+                            Created = new DateTime(2014, 12, 20, 20, 38, 5, 31, DateTimeKind.Utc),
+                            Crew = "1",
+                            Edited = new DateTime(2014, 12, 20, 21, 23, 49, 959, DateTimeKind.Utc),
+                            HyperdriveRating = "6",
+                            Image = "https://starships.blob.core.windows.net/starship-api/74.jpeg",
+                            Length = "6.71",
+                            MGLT = "unknown",
+                            Manufacturer = "Feethan Ottraw Scalable Assemblies",
+                            MaxAtmospheringSpeed = "1100",
+                            Model = "Belbullab-22 starfighter",
+                            Name = "Belbullab-22 starfighter",
+                            Passengers = "0",
+                            StarshipClass = "starfighter"
+                        },
+                        new
+                        {
+                            Id = 75,
+                            CargoCapacity = "60",
+                            Consumables = "15 hours",
+                            CostInCredits = "102500",
+                            Created = new DateTime(2014, 12, 20, 20, 43, 4, 349, DateTimeKind.Utc),
+                            Crew = "1",
+                            Edited = new DateTime(2014, 12, 20, 21, 23, 49, 961, DateTimeKind.Utc),
+                            HyperdriveRating = "1.0",
+                            Image = "https://starships.blob.core.windows.net/starship-api/75.jpeg",
+                            Length = "7.9",
+                            MGLT = "unknown",
+                            Manufacturer = "Kuat Systems Engineering",
+                            MaxAtmospheringSpeed = "1050",
+                            Model = "Alpha-3 Nimbus-class V-wing starfighter",
+                            Name = "V-wing",
+                            Passengers = "0",
+                            StarshipClass = "starfighter"
                         });
                 });
 
             modelBuilder.Entity("FilmStarship", b =>
                 {
                     b.Property<int>("FilmsId")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
 
                     b.Property<int>("StarshipsId")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
 
                     b.HasKey("FilmsId", "StarshipsId");
 
@@ -788,10 +1332,10 @@ namespace API.Data.Migrations
             modelBuilder.Entity("PersonStarship", b =>
                 {
                     b.Property<int>("PilotsId")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
 
                     b.Property<int>("StarshipsId")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
 
                     b.HasKey("PilotsId", "StarshipsId");
 

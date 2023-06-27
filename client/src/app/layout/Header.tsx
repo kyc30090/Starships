@@ -1,10 +1,6 @@
 import { Home } from "@mui/icons-material";
-import { AppBar, IconButton, List, ListItem, Toolbar, Typography } from "@mui/material";
+import { AppBar, IconButton, List, ListItem, Toolbar } from "@mui/material";
 import { NavLink } from "react-router-dom";
-
-interface Props {
-    handleThemeChange: () => void;
-}
 
 const links = [
     { title: 'starships', path: '/starships' },

@@ -20,14 +20,13 @@ const sortOptions = [
 
 export default function Catalog() {
     const starships = useAppSelector(starshipSelectors.selectAll);
-    const { shipsLoaded, status, filtersLoaded, shipClasses, shipParams, metaData } = useAppSelector(state => state.catalog);
+    const { shipsLoaded, filtersLoaded, shipClasses, shipParams, metaData } = useAppSelector(state => state.catalog);
     const dispatch = useAppDispatch();
 
     const [loading, setLoading] = useState(true);
 
     const [editMode, setEditMode] = useState(false);
     const [selectedShip, setSelectedShip] = useState<Starship | undefined>(undefined);
-    const [deleteId, setDeleteId] = useState(0);
 
     useEffect(() => {
         if (!shipsLoaded) dispatch(fetchShipsAsync());
@@ -52,7 +51,6 @@ export default function Catalog() {
 
     const handleDeleteShip = (id: number) => {
         setLoading(true);
-        setDeleteId(id);
         agent.Starships.delete(id)
             .then(() => dispatch(removeStarship(id)))
             .catch(error => console.log(error))
