@@ -1,9 +1,8 @@
 # .NET 6 with Entity Framework 
 
 ## Summary
-* Development was done in Mac. SQLite was used for cross-platform.
-* Another connectionString is provided to connect to Azure SQL Server. Code to switch over from `UseSqlite` to `UseSqlServer` SQL server is commentted. Replace {Password} with correct value.
-* Connection string to Azure storage is provided to store pictures of starships. Replace {AccountKey} with correct value.
+* Azure SQL Server is used for cross-platform. 
+* Azure storage is used to store pictures of starships. 
 
 ## To run the .NET backend
 * `dotnet ef database update`
