@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace API.Migrations
 {
     /// <inheritdoc />
-    public partial class Initial : Migration
+    public partial class sqlite : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -17,11 +17,11 @@ namespace API.Migrations
                 name: "Films",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    EpisodeId = table.Column<int>(type: "int", nullable: false),
-                    OpeningCrawl = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Title = table.Column<string>(type: "TEXT", nullable: false),
+                    EpisodeId = table.Column<int>(type: "INTEGER", nullable: false),
+                    OpeningCrawl = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -32,9 +32,9 @@ namespace API.Migrations
                 name: "People",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Name = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -45,24 +45,24 @@ namespace API.Migrations
                 name: "Starships",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Model = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Manufacturer = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CostInCredits = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Length = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    MaxAtmospheringSpeed = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Crew = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Passengers = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CargoCapacity = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Consumables = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    HyperdriveRating = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    MGLT = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    StarshipClass = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Created = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Edited = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    Image = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Name = table.Column<string>(type: "TEXT", nullable: false),
+                    Model = table.Column<string>(type: "TEXT", nullable: false),
+                    Manufacturer = table.Column<string>(type: "TEXT", nullable: true),
+                    CostInCredits = table.Column<string>(type: "TEXT", nullable: true),
+                    Length = table.Column<string>(type: "TEXT", nullable: true),
+                    MaxAtmospheringSpeed = table.Column<string>(type: "TEXT", nullable: true),
+                    Crew = table.Column<string>(type: "TEXT", nullable: true),
+                    Passengers = table.Column<string>(type: "TEXT", nullable: true),
+                    CargoCapacity = table.Column<string>(type: "TEXT", nullable: true),
+                    Consumables = table.Column<string>(type: "TEXT", nullable: true),
+                    HyperdriveRating = table.Column<string>(type: "TEXT", nullable: true),
+                    MGLT = table.Column<string>(type: "TEXT", nullable: true),
+                    StarshipClass = table.Column<string>(type: "TEXT", nullable: true),
+                    Created = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    Edited = table.Column<DateTime>(type: "TEXT", nullable: true),
+                    Image = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -73,8 +73,8 @@ namespace API.Migrations
                 name: "FilmStarship",
                 columns: table => new
                 {
-                    FilmsId = table.Column<int>(type: "int", nullable: false),
-                    StarshipsId = table.Column<int>(type: "int", nullable: false)
+                    FilmsId = table.Column<int>(type: "INTEGER", nullable: false),
+                    StarshipsId = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -97,8 +97,8 @@ namespace API.Migrations
                 name: "PersonStarship",
                 columns: table => new
                 {
-                    PilotsId = table.Column<int>(type: "int", nullable: false),
-                    StarshipsId = table.Column<int>(type: "int", nullable: false)
+                    PilotsId = table.Column<int>(type: "INTEGER", nullable: false),
+                    StarshipsId = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
