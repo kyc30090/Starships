@@ -25,8 +25,8 @@ namespace API.DTOs
         public string MGLT { get; set; }
         [FromForm(Name = "starship_class")]
         public string StarshipClass { get; set; }
-        // public ICollection<string> Pilots { get; set; } = Array.Empty<int>();
-        public ICollection<int> FilmIds { get; set; } = Array.Empty<int>();
+        // public ICollection<string> Pilots { get; set; } = new List<int>();
+        public ICollection<int> FilmIds { get; set; } = new List<int>();
         public IFormFile File { get; set; }
     }
 }

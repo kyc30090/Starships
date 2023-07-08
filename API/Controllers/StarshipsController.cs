@@ -63,7 +63,7 @@ public class StarshipsController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult<Starship>> CreateStarship([FromForm] StarshipCreateDto starshipCreateDto)
+    public async Task<ActionResult<StarshipDto>> CreateStarship([FromForm] StarshipCreateDto starshipCreateDto)
     {
         var starship = _mapper.Map<Starship>(starshipCreateDto);
 
@@ -101,13 +101,29 @@ public class StarshipsController : ControllerBase
     }
 
     [HttpPut]
-    public async Task<ActionResult<Starship>> UpdateStarship([FromForm] StarshipUpdateDto starshipDto)
+    public async Task<ActionResult<StarshipDto>> UpdateStarship([FromForm] StarshipUpdateDto starshipDto)
     {
-        Starship starship = await _context.Starships.FindAsync(starshipDto.Id);
+        Starship starship = await _context.Starships
+            .Include(s => s.Films)
+            .FirstOrDefaultAsync(s => s.Id == starshipDto.Id);
 
         if (starship == null) return NotFound();
 
         _mapper.Map(starshipDto, starship);
+
+        if (starshipDto.FilmIds.Any())
+        {
+            var linkedFilms = await _context.Films.Where(f => starshipDto.FilmIds.Contains(f.Id)).ToListAsync();
+            if (linkedFilms.Any())
+            {
+                starship.Films = linkedFilms;
+            }
+            else
+            {
+                return BadRequest("Failed to update starship. Films do not exist.");
+            }
+        }
+
         starship.Edited = DateTime.UtcNow;
 
         if (starshipDto.File != null && starshipDto.File.Length > 0)
@@ -126,7 +142,10 @@ public class StarshipsController : ControllerBase
         }
 
         var result = await _context.SaveChangesAsync() > 0;
-        if (result) return Ok(starship);
+        if (result) {
+            StarshipDto updatedDto = _mapper.Map<StarshipDto>(starship);
+            return Ok(updatedDto);
+        }
 
         return BadRequest("Failed to update starship");
     }

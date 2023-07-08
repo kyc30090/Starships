@@ -28,8 +28,8 @@ namespace API.DTOs
         public string MGLT { get; set; }
         [FromForm(Name = "starship_class")]
         public string StarshipClass { get; set; }
-        // public ICollection<string> Pilots { get; set; }
-        // public ICollection<string> Films { get; set; }
+        // public ICollection<int> PilotIds { get; set; } = new List<int>();
+        public ICollection<int> FilmIds { get; set; } = new List<int>();
 
         public IFormFile File { get; set; }
 
