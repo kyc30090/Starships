@@ -5,10 +5,10 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
 
-namespace API.Migrations
+namespace API.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class Initial : Migration
+    public partial class SqlServerInit : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

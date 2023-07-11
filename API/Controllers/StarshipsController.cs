@@ -38,7 +38,7 @@ public class StarshipsController : ControllerBase
         var results = starships.Results;
         MetaData metaData = new MetaData(results.CurrentPage, results.PageSize, results.TotalPages, results.TotalCount);
         Response.AddPaginationHeader(metaData);
-        
+
         return Ok(starships);
     }
 
@@ -63,9 +63,22 @@ public class StarshipsController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult<Starship>> CreateStarship([FromForm] StarshipCreateDto starshipCreateDto)
+    public async Task<ActionResult<StarshipDto>> CreateStarship([FromForm] StarshipCreateDto starshipCreateDto)
     {
         var starship = _mapper.Map<Starship>(starshipCreateDto);
+
+        if (starshipCreateDto.FilmIds.Any())
+        {
+            var linkedFilms = await _context.Films.Where(f => starshipCreateDto.FilmIds.Contains(f.Id)).ToListAsync();
+            if (linkedFilms.Any())
+            {
+                starship.Films.AddRange(linkedFilms);
+            }
+            else
+            {
+                return BadRequest("Failed to create starship. Films do not exist.");
+            }
+        }
         starship.Created = DateTime.UtcNow;
 
         if (starshipCreateDto.File != null && starshipCreateDto.File.Length > 0)
@@ -78,19 +91,39 @@ public class StarshipsController : ControllerBase
         _context.Starships.Add(starship);
         var result = await _context.SaveChangesAsync() > 0;
 
-        if (result) return CreatedAtRoute("GetStarship", new { Id = starship.Id }, starship);
+        if (result)
+        {
+            var starshipDto = _mapper.Map<StarshipDto>(starship);
+            return CreatedAtRoute("GetStarship", new { Id = starship.Id }, starshipDto);
+        }
 
         return BadRequest("Failed to create starship");
     }
 
     [HttpPut]
-    public async Task<ActionResult<Starship>> UpdateStarship([FromForm] StarshipUpdateDto starshipDto)
+    public async Task<ActionResult<StarshipDto>> UpdateStarship([FromForm] StarshipUpdateDto starshipDto)
     {
-        Starship starship = await _context.Starships.FindAsync(starshipDto.Id);
+        Starship starship = await _context.Starships
+            .Include(s => s.Films)
+            .FirstOrDefaultAsync(s => s.Id == starshipDto.Id);
 
         if (starship == null) return NotFound();
 
         _mapper.Map(starshipDto, starship);
+
+        if (starshipDto.FilmIds.Any())
+        {
+            var linkedFilms = await _context.Films.Where(f => starshipDto.FilmIds.Contains(f.Id)).ToListAsync();
+            if (linkedFilms.Any())
+            {
+                starship.Films = linkedFilms;
+            }
+            else
+            {
+                return BadRequest("Failed to update starship. Films do not exist.");
+            }
+        }
+
         starship.Edited = DateTime.UtcNow;
 
         if (starshipDto.File != null && starshipDto.File.Length > 0)
@@ -109,7 +142,10 @@ public class StarshipsController : ControllerBase
         }
 
         var result = await _context.SaveChangesAsync() > 0;
-        if (result) return Ok(starship);
+        if (result) {
+            StarshipDto updatedDto = _mapper.Map<StarshipDto>(starship);
+            return Ok(updatedDto);
+        }
 
         return BadRequest("Failed to update starship");
     }
@@ -150,7 +186,7 @@ public class StarshipsController : ControllerBase
         Starship starship = await GetStarshipByIdAsync(filmShipsDto.StarshipId);
         if (starship == null) return NotFound();
 
-        List<Film> films =  await _context.Films.Where(f => filmShipsDto.FilmIds.Any(id => f.Id == id)).ToListAsync();
+        List<Film> films = await _context.Films.Where(f => filmShipsDto.FilmIds.Any(id => f.Id == id)).ToListAsync();
         // Remove all films if dto contains empty film ids
         if (!films.Any() && filmShipsDto.FilmIds.Any()) return NotFound();
 
@@ -167,7 +203,7 @@ public class StarshipsController : ControllerBase
         Starship starship = await GetStarshipByIdAsync(personShipDto.StarshipId);
         if (starship == null) return NotFound();
 
-        List<Person> people =  await _context.People.Where(p => personShipDto.PersonIds.Any(id => p.Id == id)).ToListAsync();
+        List<Person> people = await _context.People.Where(p => personShipDto.PersonIds.Any(id => p.Id == id)).ToListAsync();
         // Remove all films if dto contains empty film ids
         if (!people.Any() && personShipDto.PersonIds.Any()) return NotFound();
 
@@ -197,14 +233,14 @@ public class StarshipsController : ControllerBase
 
     private async Task<PagedResponse<StarshipDto>> CreateDtosAsync(IQueryable<Starship> source,
             int pageNumber, int pageSize, string url)
-        {
-            var count = await source.CountAsync();
-            var itemsDto = await source
-                        .ProjectTo<StarshipDto>(_mapper.ConfigurationProvider)
-                        .Skip((pageNumber - 1) * pageSize)
-                        .Take(pageSize)
-                        .ToListAsync();
-            var results = new PagedList<StarshipDto>(itemsDto, count, pageNumber, pageSize);
-            return new PagedResponse<StarshipDto>(results, url);
-        }
+    {
+        var count = await source.CountAsync();
+        var itemsDto = await source
+                    .ProjectTo<StarshipDto>(_mapper.ConfigurationProvider)
+                    .Skip((pageNumber - 1) * pageSize)
+                    .Take(pageSize)
+                    .ToListAsync();
+        var results = new PagedList<StarshipDto>(itemsDto, count, pageNumber, pageSize);
+        return new PagedResponse<StarshipDto>(results, url);
+    }
 }
